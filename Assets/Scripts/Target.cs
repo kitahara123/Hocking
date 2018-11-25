@@ -4,18 +4,12 @@ using UnityEngine;
 
 public class Target : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
 	public void ReactToHit()
 	{
+		var behavior = GetComponent<WanderingAI>();
+		if (behavior != null)
+			behavior.SetAlive(false);
+		
 		StartCoroutine(Die());
 	}
 
