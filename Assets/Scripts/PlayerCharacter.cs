@@ -2,15 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCharacter : MonoBehaviour {
+public class PlayerCharacter : MonoBehaviour
+{
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    [SerializeField] private int health = 5;
+    [SerializeField] private int maxHealth = 10;
+
+    private void Start()
+    {
+        health = maxHealth;
+    }
+
+    public void Hurt(int damage)
+    {
+        health -= damage;
+        Debug.Log("hp " + health);
+    }
 }
