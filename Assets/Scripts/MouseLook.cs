@@ -28,31 +28,34 @@ public class MouseLook : MonoBehaviour
 
     private void Update()
     {
-
-        if (axes == RotationAxes.MouseX)
+        switch (axes)
         {
-            transform.Rotate(0, Input.GetAxis("Mouse X") * sensHor, 0);
-        }
-        else if ( axes == RotationAxes.MouseY)
-        {
-            rotationX -= Input.GetAxis("Mouse Y") * sensVert;
+            case RotationAxes.MouseX:
+                transform.Rotate(0, Input.GetAxis("Mouse X") * sensHor, 0);
+                break;
+            case RotationAxes.MouseY:
+            {
+                rotationX -= Input.GetAxis("Mouse Y") * sensVert;
 
-            rotationX = Mathf.Clamp(rotationX, minVert, maxVert);
+                rotationX = Mathf.Clamp(rotationX, minVert, maxVert);
 
-            float rotationY = transform.localEulerAngles.y;
+                float rotationY = transform.localEulerAngles.y;
             
-            transform.localEulerAngles = new Vector3(rotationX, rotationY, 0);
-        }
-        else
-        {
-            rotationX -= Input.GetAxis("Mouse Y") * sensVert;
+                transform.localEulerAngles = new Vector3(rotationX, rotationY, 0);
+                break;
+            }
+            default:
+            {
+                rotationX -= Input.GetAxis("Mouse Y") * sensVert;
 
-            rotationX = Mathf.Clamp(rotationX, minVert, maxVert);
+                rotationX = Mathf.Clamp(rotationX, minVert, maxVert);
 
-            float delta = Input.GetAxis("Mouse X") * sensHor;
-            float rotationY = transform.localEulerAngles.y + delta;
+                float delta = Input.GetAxis("Mouse X") * sensHor;
+                float rotationY = transform.localEulerAngles.y + delta;
 
-            transform.localEulerAngles = new Vector3(rotationX, rotationY, 0);
+                transform.localEulerAngles = new Vector3(rotationX, rotationY, 0);
+                break;
+            }
         }
     }
 }
