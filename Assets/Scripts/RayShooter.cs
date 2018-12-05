@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class RayShooter : MonoBehaviour
 {
@@ -10,8 +11,8 @@ public class RayShooter : MonoBehaviour
     {
         camera = GetComponent<Camera>();
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+//        Cursor.lockState = CursorLockMode.Locked;
+//        Cursor.visible = false;
     }
 
     private void OnGUI()
@@ -24,7 +25,7 @@ public class RayShooter : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             var point = new Vector3(camera.pixelWidth / 2, camera.pixelHeight / 2, 0);
             var ray = camera.ScreenPointToRay(point);
@@ -34,8 +35,12 @@ public class RayShooter : MonoBehaviour
             {
                 var hitObject = hit.transform.gameObject;
                 var target = hitObject.GetComponent<Target>();
-                if (target != null)
+                if (target != null && target.Alive)
+                {
                     target.ReactToHit();
+                    Messenger.Broadcast(GameEvent.ENEMY_HIT);
+                }
+               
                 else
                     StartCoroutine(SphereIndicator(hit.point));
             }

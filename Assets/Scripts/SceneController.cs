@@ -9,7 +9,7 @@ public class SceneController : MonoBehaviour
 
     private void Update()
     {
-//        if (enemy != null) return;
+        if (enemy != null) return;
         enemy = Instantiate(enemyPrefab);
         enemy.transform.position = new Vector3(0, 1, 0);
         var angle = Random.Range(0, 360);
