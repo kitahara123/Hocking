@@ -14,11 +14,13 @@ public class RelativeMovement : MonoBehaviour
     private float vertSpeed;
     private CharacterController characterController;
     private ControllerColliderHit contact;
+    private Animator animator;
 
     private void Start()
     {
         vertSpeed = minFall;
         characterController = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -33,6 +35,7 @@ public class RelativeMovement : MonoBehaviour
             movement.x = horInput * movementSpeed;
             movement.z = vertInput * movementSpeed;
             movement = Vector3.ClampMagnitude(movement, movementSpeed);
+            animator.SetFloat("Speed", movement.sqrMagnitude);
 
 
             var tmp = target.rotation;
@@ -48,12 +51,20 @@ public class RelativeMovement : MonoBehaviour
 
         if (vertSpeed < 0 && Physics.Raycast(transform.position, Vector3.down, check))
         {
-            vertSpeed = Input.GetButtonDown("Jump") ? jumpForce : minFall;
+            if (Input.GetButtonDown("Jump"))
+                vertSpeed = jumpForce;
+            else
+            {
+                vertSpeed = minFall;
+                animator.SetBool("Jumping", false);
+            }
         }
         else
         {
             vertSpeed += gravity * 5 * Time.deltaTime;
             if (vertSpeed < maxVelocity) vertSpeed = maxVelocity;
+            
+            if (contact != null) animator.SetBool("Jumping", true);
 
             if (characterController.isGrounded)
             {
