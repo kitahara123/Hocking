@@ -1,4 +1,5 @@
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 
 public class UIController : MonoBehaviour
@@ -12,6 +13,8 @@ public class UIController : MonoBehaviour
     private void Awake()
     {
         Messenger.AddListener(GameEvent.ENEMY_HIT, OnEnemyHit);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void OnDestroy()
@@ -47,5 +50,6 @@ public class UIController : MonoBehaviour
     private void Update()
     {
         if (Input.GetButtonDown("Cancel")) OnOpenSettings();
+        if (Input.GetButtonDown("Inventory")) Managers.Managers.Inventory.OpenClose();
     }
 }

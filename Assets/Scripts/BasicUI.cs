@@ -27,20 +27,24 @@ public class BasicUI : MonoBehaviour
             var image = Resources.Load<Texture2D>("Icons/" + item);
             GUI.Box(new Rect(posX, posY, width, height), new GUIContent($"({count})", image));
 
-            posY += height + buffer;
+            if (Managers.Managers.Inventory.Opened)
+            {
+                posY += height + buffer;
 
-            if (item == "health")
-            {
-                if (GUI.Button(new Rect(posX, posY, width, height), "Use " + item)) // да я понимаю какое это говно, но сейчас я делаю по книжке
+                if (item == "health")
                 {
-                    Managers.Managers.Inventory.ConsumeItem(item);
-                    Managers.Managers.Player.AddHealth(25);
+                    if (GUI.Button(new Rect(posX, posY, width, height), "Use " + item)
+                    ) // да я понимаю какое это говно, но сейчас я делаю по книжке
+                    {
+                        Managers.Managers.Inventory.ConsumeItem(item);
+                        Managers.Managers.Player.AddHealth(25);
+                    }
                 }
-            }
-            else
-            {
-                if (GUI.Button(new Rect(posX, posY, width, height), "Equip " + item))
-                    Managers.Managers.Inventory.EquipItem(item);
+                else
+                {
+                    if (GUI.Button(new Rect(posX, posY, width, height), "Equip " + item))
+                        Managers.Managers.Inventory.EquipItem(item);
+                }
             }
 
             posY = startPosY;

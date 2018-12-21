@@ -109,9 +109,6 @@ public class RelativeMovement : MonoBehaviour
                     movement += contact.normal * movementSpeed;
             }
         }
-//        Debug.Log(gravity);
-//        Debug.Log(jumpForce);
-
         movement.y = vertSpeed;
         movement *= Time.deltaTime;
         characterController.Move(movement);

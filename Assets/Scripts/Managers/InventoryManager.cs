@@ -8,12 +8,14 @@ namespace Managers
         public ManagerStatus status { get; private set; }
         public string EquippedItem { get; private set; }
 
+        public bool Opened { get; private set; }
         private Dictionary<string, int> items;
 
         public void Startup()
         {
             Debug.Log("Inventory manager starting...");
-            
+
+            Opened = false;
             items = new Dictionary<string, int>();
             status = ManagerStatus.Started;
         }
@@ -69,6 +71,28 @@ namespace Managers
             }
             DisplayItems();
             return true;
+        }
+
+        public void Open()
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            Messenger<bool>.Broadcast(GameEvent.CAMERA_LOCK, true);
+            Opened = true;
+        }
+
+        public void Close()
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            Messenger<bool>.Broadcast(GameEvent.CAMERA_LOCK, false);
+            Opened = false;
+        }
+
+        public void OpenClose()
+        {
+            if (Opened) Close();
+            else Open();
         }
     }
 }

@@ -3810,6 +3810,7 @@ GameObject:
   - component: {fileID: 1183063943}
   - component: {fileID: 1183063942}
   - component: {fileID: 1183063945}
+  - component: {fileID: 1183063946}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -3891,6 +3892,20 @@ MonoBehaviour:
   target: {fileID: 1162495383}
   rotSpeed: 1.5
   mouseSens: 3
+  minVertAngles: -40
+  maxVertAngles: 50
+--- !u!135 &1183063946
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1183063941}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &1201828010 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4855690985011366, guid: 2a0ac1ef78355bb47843f0927d8a37e0,

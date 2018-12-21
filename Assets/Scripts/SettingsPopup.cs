@@ -8,6 +8,8 @@ public class SettingsPopup : MonoBehaviour
         
     public void Open()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         Messenger<float>.Broadcast(GameEvent.SPEED_CHANGED, 0f);
         speedSlider.value = PlayerPrefs.GetFloat("Speed", 1);
         gameObject.SetActive(true);
@@ -15,6 +17,8 @@ public class SettingsPopup : MonoBehaviour
 
     public void Close()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         Messenger<float>.Broadcast(GameEvent.SPEED_CHANGED, speed);
         PlayerPrefs.SetFloat("Speed", speed);
         gameObject.SetActive(false);
