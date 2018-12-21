@@ -27,7 +27,10 @@ public class UIController : MonoBehaviour
 
     public void OnOpenSettings()
     {
-        settingsPopup.Open();
+        if (settingsPopup.isActiveAndEnabled)
+            settingsPopup.Close();
+        else
+            settingsPopup.Open();
     }
 
     public void OnPointerDown()
@@ -39,5 +42,10 @@ public class UIController : MonoBehaviour
     {
         score += scoreDelta;
         scoreLabel.text = score.ToString();
+    }
+
+    private void Update()
+    {
+        if (Input.GetButtonDown("Cancel")) OnOpenSettings();
     }
 }

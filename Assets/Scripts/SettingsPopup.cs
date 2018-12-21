@@ -8,6 +8,7 @@ public class SettingsPopup : MonoBehaviour
         
     public void Open()
     {
+        Messenger<float>.Broadcast(GameEvent.SPEED_CHANGED, 0f);
         speedSlider.value = PlayerPrefs.GetFloat("Speed", 1);
         gameObject.SetActive(true);
     }
