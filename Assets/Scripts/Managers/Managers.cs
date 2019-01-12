@@ -6,11 +6,13 @@ using UnityEngine;
 namespace Managers
 {
     [RequireComponent(typeof(PlayerManager), typeof(InventoryManager), typeof(ImagesManager))]
+    [RequireComponent(typeof(AudioManager))]
     public class Managers : MonoBehaviour
     {
         public static PlayerManager Player { get; private set; }
         public static InventoryManager Inventory { get; private set; }
         public static ImagesManager Images { get; private set; }
+        public static AudioManager Audio { get; private set; }
 
         private List<IGameManager> startSequence;
 
@@ -19,8 +21,9 @@ namespace Managers
             Player = GetComponent<PlayerManager>();
             Inventory = GetComponent<InventoryManager>();
             Images = GetComponent<ImagesManager>();
+            Audio = GetComponent<AudioManager>();
 
-            startSequence = new List<IGameManager> {Player, Inventory, Images};
+            startSequence = new List<IGameManager> {Player, Inventory, Images, Audio};
             StartCoroutine(StartupManagers());
         }
 
