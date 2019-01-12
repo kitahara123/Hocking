@@ -11,7 +11,7 @@ namespace Managers
         public bool Opened { get; private set; }
         private Dictionary<string, int> items;
 
-        public void Startup()
+        public void Startup(NetworkService service)
         {
             Debug.Log("Inventory manager starting...");
 

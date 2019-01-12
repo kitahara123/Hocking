@@ -5,11 +5,12 @@ using UnityEngine;
 
 namespace Managers
 {
-    [RequireComponent(typeof(PlayerManager), typeof(InventoryManager))]
+    [RequireComponent(typeof(PlayerManager), typeof(InventoryManager), typeof(ImagesManager))]
     public class Managers : MonoBehaviour
     {
         public static PlayerManager Player { get; private set; }
         public static InventoryManager Inventory { get; private set; }
+        public static ImagesManager Images { get; private set; }
 
         private List<IGameManager> startSequence;
 
@@ -17,16 +18,18 @@ namespace Managers
         {
             Player = GetComponent<PlayerManager>();
             Inventory = GetComponent<InventoryManager>();
+            Images = GetComponent<ImagesManager>();
 
-            startSequence = new List<IGameManager> {Player, Inventory};
+            startSequence = new List<IGameManager> {Player, Inventory, Images};
             StartCoroutine(StartupManagers());
         }
 
         private IEnumerator StartupManagers()
         {
+            NetworkService network = new NetworkService();
             foreach (var manager in startSequence)
             {
-                manager.Startup();
+                manager.Startup(network);
             }
 
             yield return null;
