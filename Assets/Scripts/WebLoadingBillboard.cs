@@ -1,17 +1,14 @@
 using UnityEngine;
 
-namespace DefaultNamespace
+public class WebLoadingBillboard : BaseDevice
 {
-    public class WebLoadingBillboard : MonoBehaviour
+    public override void Operate()
     {
-        public void Operate()
-        {
-            Managers.Managers.Images.GetWebImage(OnWebImage);
-        }
+        Managers.Managers.Images.GetWebImage(OnWebImage);
+    }
 
-        private void OnWebImage(Texture2D image)
-        {
-            GetComponent<Renderer>().material.mainTexture = image;
-        }
+    private void OnWebImage(Texture2D image)
+    {
+        GetComponent<Renderer>().material.mainTexture = image;
     }
 }

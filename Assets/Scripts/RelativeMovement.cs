@@ -12,6 +12,7 @@ public class RelativeMovement : MonoBehaviour
     [SerializeField] private float maxVelocity = -18.0f;
     [SerializeField] private float baseMinFall = -1.5f;
     [SerializeField] private float pushForce = 3.0f;
+    [SerializeField] private float offset = 1.3f;
 
     private float vertSpeed;
     private float movementSpeed;
@@ -22,6 +23,12 @@ public class RelativeMovement : MonoBehaviour
     private CharacterController characterController;
     private ControllerColliderHit contact;
     private Animator animator;
+
+    [SerializeField] private float baseDeceleration = 20.0f;
+    [SerializeField] private float targetBuffer = 1.5f;
+    private Vector3 targetPos = Vector3.one;
+    private float curSpeed = 0f;
+    private float deceleration;
 
     private void Awake() => Messenger<float>.AddListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
     private void OnDestroy() => Messenger<float>.RemoveListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
@@ -40,53 +47,31 @@ public class RelativeMovement : MonoBehaviour
         speedModifier = value;
         movementSpeed = baseMovementSpeed * speedModifier;
         rotSpeed = baseRotSpeed * speedModifier;
-//        jumpForce = (speedModifier<1?   (baseJumpForce*speedModifier) * (15 - (baseJumpForce*speedModifier))   :speedModifier * baseJumpForce);
         jumpForce = baseJumpForce * speedModifier;
         gravity = baseGravity * speedModifier;
         minFall = baseMinFall * speedModifier;
         vertSpeed = minFall * speedModifier;
+        deceleration = baseDeceleration * speedModifier;
     }
 
     private void Update()
     {
-        var movement = Vector3.zero;
+        var isometric = Managers.Managers.Settings.Isometric;
+        var movement = isometric ? PointClickMovement() : WASDMovement();
 
-        var horInput = Input.GetAxis("Horizontal");
-        var vertInput = Input.GetAxis("Vertical");
-
-
-        if (horInput != 0 || vertInput != 0)
-        {
-            movement.x = horInput * movementSpeed;
-            movement.z = vertInput * movementSpeed;
-            movement = Vector3.ClampMagnitude(movement, movementSpeed);
-            animator.SetFloat("Speed", movement.sqrMagnitude);
-            animator.speed = speedModifier;
-
-            var tmp = target.rotation;
-            target.eulerAngles = new Vector3(0, target.eulerAngles.y, 0);
-            movement = target.TransformDirection(movement);
-            target.rotation = tmp;
-
-            var direction = Quaternion.LookRotation(movement);
-            transform.rotation = Quaternion.Lerp(transform.rotation, direction, rotSpeed * Time.deltaTime);
-        }
-        else
-        {
-            animator.SetFloat("Speed", 0);
-        }
+        animator.speed = speedModifier;
+        animator.SetFloat("Speed", movement.sqrMagnitude);
 
         var check = (characterController.height + characterController.radius) / 1.9f;
 
         if (vertSpeed < 0 && Physics.Raycast(transform.position, Vector3.down, check))
         {
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("Jump") && !isometric)
                 vertSpeed = jumpForce;
             else
             {
                 vertSpeed = minFall;
                 animator.SetBool("Jumping", false);
-                animator.speed = speedModifier;
             }
         }
         else
@@ -98,7 +83,6 @@ public class RelativeMovement : MonoBehaviour
             if (contact != null)
             {
                 animator.SetBool("Jumping", true);
-                animator.speed = speedModifier;
             }
 
             if (characterController.isGrounded)
@@ -109,9 +93,75 @@ public class RelativeMovement : MonoBehaviour
                     movement += contact.normal * movementSpeed;
             }
         }
+
         movement.y = vertSpeed;
         movement *= Time.deltaTime;
         characterController.Move(movement);
+    }
+
+    private Vector3 WASDMovement()
+    {
+        var movement = Vector3.zero;
+        var horInput = Input.GetAxis("Horizontal");
+        var vertInput = Input.GetAxis("Vertical");
+
+
+        if (horInput != 0 || vertInput != 0)
+        {
+            movement.x = horInput * movementSpeed;
+            movement.z = vertInput * movementSpeed;
+            movement = Vector3.ClampMagnitude(movement, movementSpeed);
+
+            var tmp = target.rotation;
+            target.eulerAngles = new Vector3(0, target.eulerAngles.y, 0);
+            movement = target.TransformDirection(movement);
+            target.rotation = tmp;
+
+            var direction = Quaternion.LookRotation(movement);
+            transform.rotation = Quaternion.Lerp(transform.rotation, direction, rotSpeed * Time.deltaTime);
+        }
+
+        return movement;
+    }
+
+    private Vector3 PointClickMovement()
+    {
+        var movement = Vector3.zero;
+        if (Input.GetMouseButton(0))
+        {
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit mouseHit;
+            if (Physics.Raycast(ray, out mouseHit))
+            {
+                if (mouseHit.transform.gameObject.layer != LayerMask.NameToLayer("Ground")) return Vector3.zero;
+                targetPos = mouseHit.point;
+                curSpeed = movementSpeed;
+            }
+        }
+
+        if (targetPos != Vector3.one && Vector3.Distance(targetPos, transform.position) > offset && speedModifier > 0)
+        {
+            if (Vector3.Distance(targetPos, transform.position) > targetBuffer)
+            {
+                var adjustedPos = new Vector3(targetPos.x, transform.position.y, targetPos.z);
+                var targetRot = Quaternion.LookRotation(adjustedPos - transform.position);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotSpeed * Time.deltaTime);
+            }
+
+            movement = curSpeed * Vector3.forward;
+            movement = transform.TransformDirection(movement);
+
+            if (Vector3.Distance(targetPos, transform.position) < targetBuffer)
+            {
+                curSpeed -= deceleration * Time.deltaTime;
+                if (curSpeed <= 0)
+                {
+                    targetPos = Vector3.one;
+                }
+            }
+        }
+
+        return movement;
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)

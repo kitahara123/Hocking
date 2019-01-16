@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class DoorOpenDevice : MonoBehaviour
+public class DoorOpenDevice : BaseDevice
 {
     [SerializeField] private Vector3 dPos;
     private bool open;
 
-    public void Operate()
+    public override void Operate()
     {
         if (open)
         {

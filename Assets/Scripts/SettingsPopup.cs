@@ -30,9 +30,10 @@ public class SettingsPopup : MonoBehaviour
     {
         if (!Managers.Managers.Settings.Isometric)
         {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false; 
         }
+
         Messenger<float>.Broadcast(GameEvent.SPEED_CHANGED, speed);
         PlayerPrefs.SetFloat("Speed", speed);
         Managers.Managers.Audio.PlayLevelMusic();
@@ -51,4 +52,5 @@ public class SettingsPopup : MonoBehaviour
 
     public void OnMusicMute(bool value) => Managers.Managers.Audio.MusicMute = value;
     public void OnMusicValue(float value) => Managers.Managers.Audio.MusicVolume = value;
+    public void OnIsometricEnabled(bool value) => Managers.Managers.Settings.IsometricToggle(value);
 }

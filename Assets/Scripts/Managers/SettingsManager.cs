@@ -14,5 +14,7 @@ namespace Managers
 
             status = ManagerStatus.Started;
         }
+
+        public void IsometricToggle(bool value) => isometric = value;
     }
 }
