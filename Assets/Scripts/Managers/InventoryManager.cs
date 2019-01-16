@@ -83,8 +83,12 @@ namespace Managers
 
         public void Close()
         {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            if (!Managers.Settings.Isometric)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+
             Messenger<bool>.Broadcast(GameEvent.CAMERA_LOCK, false);
             Opened = false;
         }

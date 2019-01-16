@@ -1300,6 +1300,7 @@ GameObject:
   - component: {fileID: 460447705}
   - component: {fileID: 460447708}
   - component: {fileID: 460447704}
+  - component: {fileID: 460447710}
   - component: {fileID: 460447709}
   m_Layer: 0
   m_Name: Managers
@@ -1381,6 +1382,18 @@ MonoBehaviour:
   musicS1Source: {fileID: 643273299}
   introBGMusic: intro-synth
   levelBGMusic: loop
+--- !u!114 &460447710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 460447703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3a965a2346f436dba841f3571e7c8fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isometric: 0
 --- !u!1001 &476308559
 Prefab:
   m_ObjectHideFlags: 0
@@ -4357,6 +4370,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4493406679281866, guid: 9a987b649b680c34298da5a81b66249c,
     type: 2}
   m_PrefabInternal: {fileID: 935624327}
+--- !u!114 &1162495384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1162495382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b421b84281052ab43be16f18ca600934, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1162495385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4596,6 +4620,10 @@ MonoBehaviour:
   mouseSens: 3
   minVertAngles: -40
   maxVertAngles: 50
+  cameraDistanse: 1
+  isometricVertAngle: 35
+  isometricHorAngle: 25
+  isometricDistanse: 2
 --- !u!4 &1201828010 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4855690985011366, guid: 2a0ac1ef78355bb47843f0927d8a37e0,

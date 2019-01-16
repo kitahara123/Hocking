@@ -13,8 +13,12 @@ public class UIController : MonoBehaviour
     private void Awake()
     {
         Messenger.AddListener(GameEvent.ENEMY_HIT, OnEnemyHit);
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+
+        if (!Managers.Managers.Settings.Isometric)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 
     private void OnDestroy()

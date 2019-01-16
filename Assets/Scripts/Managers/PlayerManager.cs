@@ -32,5 +32,11 @@ namespace Managers
             
             Debug.Log("Health: " + health + "/" + maxHealth);
         }
+        
+        public void Hurt(int damage)
+        {
+            health -= damage;
+            Debug.Log("hp " + health);
+        }
     }
 }

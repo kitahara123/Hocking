@@ -28,8 +28,11 @@ public class SettingsPopup : MonoBehaviour
 
     public void Close()
     {
+        if (!Managers.Managers.Settings.Isometric)
+        {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        }
         Messenger<float>.Broadcast(GameEvent.SPEED_CHANGED, speed);
         PlayerPrefs.SetFloat("Speed", speed);
         Managers.Managers.Audio.PlayLevelMusic();
