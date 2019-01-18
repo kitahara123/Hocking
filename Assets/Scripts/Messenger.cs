@@ -34,6 +34,13 @@ public static class GameEvent
 	public const string ENEMY_HIT = "ENEMY_HIT";
 	public const string SPEED_CHANGED = "SPEED_CHANGED";
 	public const string CAMERA_LOCK = "CAMERA_LOCK";
+	public const string HEALTH_UPDATED = "HEALTH_UPDATED";
+	public const string ITEM_ADDED = "ITEM_ADDED";
+}
+public static class StartupEvent
+{
+	public const string MANAGERS_STARTED = "MANAGERS_STARTED";
+	public const string MANAGERS_PROGRESS = "MANAGERS_PROGRESS";
 }
 
 public enum MessengerMode {

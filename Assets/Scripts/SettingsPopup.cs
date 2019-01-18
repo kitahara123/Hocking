@@ -39,6 +39,12 @@ public class SettingsPopup : MonoBehaviour
         Managers.Managers.Audio.PlayLevelMusic();
         gameObject.SetActive(false);
     }
+    
+    public void OpenClose()
+    {
+        if (isActiveAndEnabled) Close();
+        else Open();
+    }
 
     public void OnSubmitName(string value) => Debug.Log(value);
     public void OnSpeedValue(float value) => speed = value;

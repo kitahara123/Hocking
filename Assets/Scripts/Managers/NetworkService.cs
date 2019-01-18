@@ -18,7 +18,6 @@ namespace Managers
         {
             if (cache.ContainsKey(url))
             {
-                Debug.Log("cached");
                 callback(cache[url]);
             }
             else

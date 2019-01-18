@@ -18,25 +18,15 @@ namespace Managers
             status = ManagerStatus.Started;
         }
 
-        public void AddHealth(int value)
+        public void ChangeHealth(int value)
         {
             health += value;
             if (health > maxHealth)
-            {
                 health = maxHealth;
-            }
             else if (health < 0)
-            {
                 health = 0;
-            }
-            
-            Debug.Log("Health: " + health + "/" + maxHealth);
-        }
-        
-        public void Hurt(int damage)
-        {
-            health -= damage;
-            Debug.Log("hp " + health);
+
+            Messenger.Broadcast(GameEvent.HEALTH_UPDATED);
         }
     }
 }

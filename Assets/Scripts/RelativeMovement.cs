@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(CharacterController))]
 public class RelativeMovement : MonoBehaviour
@@ -127,7 +128,7 @@ public class RelativeMovement : MonoBehaviour
     private Vector3 PointClickMovement()
     {
         var movement = Vector3.zero;
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit mouseHit;

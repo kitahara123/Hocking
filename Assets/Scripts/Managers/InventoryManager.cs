@@ -5,6 +5,8 @@ namespace Managers
 {
     public class InventoryManager : MonoBehaviour, IGameManager
     {
+        [SerializeField] private int healthKitdelta = 25;
+        
         public ManagerStatus status { get; private set; }
         public string EquippedItem { get; private set; }
 
@@ -20,24 +22,13 @@ namespace Managers
             status = ManagerStatus.Started;
         }
 
-        private void DisplayItems()
-        {
-            string itemDisplay = "Items: ";
-            foreach (KeyValuePair<string, int> item in items)
-            {
-                itemDisplay += $"{item.Key}({item.Value}) ";
-            }
-            Debug.Log(itemDisplay);
-        }
-
         public void AddItem(string name)
         {
             if (items.ContainsKey(name))
                 items[name] += 1;
             else
                 items[name] = 1;
-            
-            DisplayItems();
+            Messenger.Broadcast(GameEvent.ITEM_ADDED, MessengerMode.DONT_REQUIRE_LISTENER);
         }
 
         public List<string> GetItemList() => new List<string>(items.Keys);
@@ -48,12 +39,10 @@ namespace Managers
             if (items.ContainsKey(name) && EquippedItem != name)
             {
                 EquippedItem = name;
-                Debug.Log($"Equipped {name}");
                 return true;
             }
 
             EquippedItem = null;
-            Debug.Log("Unequipped");
             return false;
         }
 
@@ -63,13 +52,12 @@ namespace Managers
             {
                 items[name]--;
                 if (items[name] == 0) items.Remove(name);
+                if (name == "health") Managers.Player.ChangeHealth(healthKitdelta);
             }
             else
             {
-                Debug.Log($"Cannot consume {name}");
                 return false;
             }
-            DisplayItems();
             return true;
         }
 

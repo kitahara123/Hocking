@@ -5,7 +5,9 @@ using UnityEngine;
 public class UIController : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI scoreLabel;
+    [SerializeField] private TextMeshProUGUI healthLabel;
     [SerializeField] private SettingsPopup settingsPopup;
+    [SerializeField] private InventoryPopup inventoryPopup;
 
     [SerializeField] private int scoreDelta;
     private int score;
@@ -13,6 +15,7 @@ public class UIController : MonoBehaviour
     private void Awake()
     {
         Messenger.AddListener(GameEvent.ENEMY_HIT, OnEnemyHit);
+        Messenger.AddListener(GameEvent.HEALTH_UPDATED, OnHealthUpdated);
 
         if (!Managers.Managers.Settings.Isometric)
         {
@@ -24,26 +27,17 @@ public class UIController : MonoBehaviour
     private void OnDestroy()
     {
         Messenger.RemoveListener(GameEvent.ENEMY_HIT, OnEnemyHit);
+        Messenger.RemoveListener(GameEvent.HEALTH_UPDATED, OnHealthUpdated);
     }
 
     private void Start()
     {
+        OnHealthUpdated();
         score = 0;
         scoreLabel.text = score.ToString();
     }
 
-    public void OnOpenSettings()
-    {
-        if (settingsPopup.isActiveAndEnabled)
-            settingsPopup.Close();
-        else
-            settingsPopup.Open();
-    }
-
-    public void OnPointerDown()
-    {
-//        Debug.Log("pointer down");
-    }
+    public void OnOpenSettings() => settingsPopup.OpenClose();
 
     private void OnEnemyHit()
     {
@@ -51,9 +45,14 @@ public class UIController : MonoBehaviour
         scoreLabel.text = score.ToString();
     }
 
+    private void OnHealthUpdated()
+    {
+        healthLabel.text = $"Health: {Managers.Managers.Player.health} / {Managers.Managers.Player.maxHealth}";
+    }
+
     private void Update()
     {
-        if (Input.GetButtonDown("Cancel")) OnOpenSettings();
-        if (Input.GetButtonDown("Inventory")) Managers.Managers.Inventory.OpenClose();
+        if (Input.GetButtonDown("Cancel")) settingsPopup.OpenClose();
+        if (Input.GetButtonDown("Inventory")) inventoryPopup.OpenClose();
     }
 }

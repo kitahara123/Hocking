@@ -37,7 +37,7 @@ public class BasicUI : MonoBehaviour
                     ) // да я понимаю какое это говно, но сейчас я делаю по книжке
                     {
                         Managers.Managers.Inventory.ConsumeItem(item);
-                        Managers.Managers.Player.AddHealth(25);
+                        Managers.Managers.Player.ChangeHealth(25);
                     }
                 }
                 else

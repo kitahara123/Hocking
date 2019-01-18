@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Managers
 {
     [RequireComponent(typeof(PlayerManager), typeof(InventoryManager), typeof(ImagesManager))]
-    [RequireComponent(typeof(AudioManager), typeof(SettingsManager))]
+    [RequireComponent(typeof(AudioManager), typeof(SettingsManager), typeof(MissionManager))]
     public class Managers : MonoBehaviour
     {
         public static PlayerManager Player { get; private set; }
@@ -14,6 +14,7 @@ namespace Managers
         public static ImagesManager Images { get; private set; }
         public static AudioManager Audio { get; private set; }
         public static SettingsManager Settings { get; private set; }
+        public static MissionManager Mission { get; private set; }
 
         private List<IGameManager> startSequence;
 
@@ -24,8 +25,9 @@ namespace Managers
             Images = GetComponent<ImagesManager>();
             Audio = GetComponent<AudioManager>();
             Settings = GetComponent<SettingsManager>();
+            Mission = GetComponent<MissionManager>();
 
-            startSequence = new List<IGameManager> {Player, Inventory, Images, Audio, Settings};
+            startSequence = new List<IGameManager> {Player, Inventory, Images, Audio, Settings, Mission};
             StartCoroutine(StartupManagers());
         }
 
@@ -49,11 +51,15 @@ namespace Managers
 
                 numReady = startSequence.Count(e => e.status == ManagerStatus.Started);
                 if (numReady > lastReady)
-                    Debug.Log("Progress: " + numReady + "/" + numModules);
+                {
+                    Debug.Log($"Progress: {numReady}/{numModules}");
+                    Messenger<int, int>.Broadcast(StartupEvent.MANAGERS_PROGRESS, numReady, numModules);
+                }
                 yield return null;
             }
 
             Debug.Log("All managers started up");
+            Messenger.Broadcast(StartupEvent.MANAGERS_STARTED);
         }
     }
 }
