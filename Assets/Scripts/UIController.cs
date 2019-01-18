@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -8,14 +9,19 @@ public class UIController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI healthLabel;
     [SerializeField] private SettingsPopup settingsPopup;
     [SerializeField] private InventoryPopup inventoryPopup;
-
     [SerializeField] private int scoreDelta;
+    [SerializeField] private TextMeshProUGUI levelEnding;
+    [SerializeField] private string levelCompleteMessage = "Level Complete!";
+    [SerializeField] private string levelFailedMessage = "Level Failed";
+
     private int score;
 
     private void Awake()
     {
         Messenger.AddListener(GameEvent.ENEMY_HIT, OnEnemyHit);
         Messenger.AddListener(GameEvent.HEALTH_UPDATED, OnHealthUpdated);
+        Messenger.AddListener(GameEvent.LEVEL_COMPLETED, OnLevelComplete);
+        Messenger.AddListener(GameEvent.LEVEL_FAILED, OnLevelFailed);
 
         if (!Managers.Managers.Settings.Isometric)
         {
@@ -28,6 +34,8 @@ public class UIController : MonoBehaviour
     {
         Messenger.RemoveListener(GameEvent.ENEMY_HIT, OnEnemyHit);
         Messenger.RemoveListener(GameEvent.HEALTH_UPDATED, OnHealthUpdated);
+        Messenger.RemoveListener(GameEvent.LEVEL_COMPLETED, OnLevelComplete);
+        Messenger.RemoveListener(GameEvent.LEVEL_FAILED, OnLevelFailed);
     }
 
     private void Start()
@@ -48,6 +56,29 @@ public class UIController : MonoBehaviour
     private void OnHealthUpdated()
     {
         healthLabel.text = $"Health: {Managers.Managers.Player.health} / {Managers.Managers.Player.maxHealth}";
+    }
+
+    private void OnLevelComplete() => StartCoroutine(CompleteLevel());
+
+    public IEnumerator CompleteLevel()
+    {
+        levelEnding.gameObject.SetActive(true);
+        levelEnding.text = levelCompleteMessage;
+        yield return new WaitForSeconds(2);
+
+        Managers.Managers.Mission.GoToNext();
+    }
+
+    private void OnLevelFailed() => StartCoroutine(FailLevel());
+
+    private IEnumerator FailLevel()
+    {
+        levelEnding.gameObject.SetActive(true);
+        levelEnding.text = levelFailedMessage;
+        yield return new WaitForSeconds(2);
+
+        Managers.Managers.Player.Respawn();
+        Managers.Managers.Mission.RestartCurrent();
     }
 
     private void Update()

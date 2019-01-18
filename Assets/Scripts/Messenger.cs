@@ -36,6 +36,8 @@ public static class GameEvent
 	public const string CAMERA_LOCK = "CAMERA_LOCK";
 	public const string HEALTH_UPDATED = "HEALTH_UPDATED";
 	public const string ITEM_ADDED = "ITEM_ADDED";
+	public const string LEVEL_COMPLETED = "LEVEL_COMPLETED";
+	public const string LEVEL_FAILED = "LEVEL_FAILED";
 }
 public static class StartupEvent
 {

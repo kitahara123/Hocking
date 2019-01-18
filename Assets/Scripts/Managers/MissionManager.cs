@@ -6,18 +6,33 @@ namespace Managers
     public class MissionManager : MonoBehaviour, IGameManager
     {
         public ManagerStatus status { get; private set; }
-        
+
         public int curLevel { get; private set; }
         public int maxLevel { get; private set; }
-        
+
+        private string prevScene;
+
         public void Startup(NetworkService service)
         {
             Debug.Log("Mission manager starting...");
 
             curLevel = 0;
-            maxLevel = 1;
+            maxLevel = 2;
 
+            SceneManager.sceneLoaded += OnSceneLoaded;
             status = ManagerStatus.Started;
+        }
+
+        public void ObjectiveReached()
+        {
+            Messenger.Broadcast(GameEvent.LEVEL_COMPLETED);
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode arg1)
+        {
+            if (prevScene == "Managers" || prevScene == null) return;
+            SceneManager.UnloadSceneAsync(prevScene);
+            SceneManager.SetActiveScene(scene);
         }
 
         public void GoToNext()
@@ -25,14 +40,28 @@ namespace Managers
             if (curLevel < maxLevel)
             {
                 curLevel++;
-                var name = $"Level {curLevel}";
+                var name = $"Level{curLevel}";
+                prevScene = SceneManager.GetActiveScene().name;
+                SceneManager.LoadSceneAsync(name, LoadSceneMode.Additive);
+
+                Debug.Log($"Unload {prevScene}");
                 Debug.Log($"Loading {name}");
-                SceneManager.LoadScene(name);
+
             }
             else
             {
                 Debug.Log("Last level");
             }
         }
+
+        public void RestartCurrent()
+        {
+            var name = "Level" + curLevel;
+            Debug.Log("Loading " + name);
+            prevScene = name;
+            SceneManager.LoadSceneAsync(name, LoadSceneMode.Additive);
+        }
+
+        private void OnDestroy() => SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

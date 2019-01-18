@@ -7,6 +7,6 @@ public class PlayerCharacter : MonoBehaviour
 
     public void Hurt(int damage)
     {
-        Managers.Managers.Player.ChangeHealth(-damage);
+        Managers.Managers.Player.Hurt(damage);
     }
 }

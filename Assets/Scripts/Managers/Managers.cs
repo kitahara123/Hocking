@@ -46,15 +46,9 @@ namespace Managers
 
             while (numReady < numModules)
             {
-                var lastReady = numReady;
-                numReady = 0;
-
                 numReady = startSequence.Count(e => e.status == ManagerStatus.Started);
-                if (numReady > lastReady)
-                {
-                    Debug.Log($"Progress: {numReady}/{numModules}");
-                    Messenger<int, int>.Broadcast(StartupEvent.MANAGERS_PROGRESS, numReady, numModules);
-                }
+                Debug.Log($"Progress: {numReady}/{numModules}");
+                Messenger<int, int>.Broadcast(StartupEvent.MANAGERS_PROGRESS, numReady, numModules);
                 yield return null;
             }
 

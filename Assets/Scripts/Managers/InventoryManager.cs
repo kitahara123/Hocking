@@ -5,7 +5,7 @@ namespace Managers
 {
     public class InventoryManager : MonoBehaviour, IGameManager
     {
-        [SerializeField] private int healthKitdelta = 25;
+        [SerializeField] private int healthKitDelta = 25;
         
         public ManagerStatus status { get; private set; }
         public string EquippedItem { get; private set; }
@@ -52,7 +52,7 @@ namespace Managers
             {
                 items[name]--;
                 if (items[name] == 0) items.Remove(name);
-                if (name == "health") Managers.Player.ChangeHealth(healthKitdelta);
+                if (name == "health") Managers.Player.ChangeHealth(healthKitDelta);
             }
             else
             {
