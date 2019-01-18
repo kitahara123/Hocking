@@ -129,6 +129,7 @@ GameObject:
   - component: {fileID: 460447710}
   - component: {fileID: 460447709}
   - component: {fileID: 460447711}
+  - component: {fileID: 460447712}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -158,7 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebcb75c07008441db3c258770922b3da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthKitdelta: 25
+  healthKitDelta: 25
 --- !u!114 &460447706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,6 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cd16fbe710a4a6791b9944e8d37376d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  invulState: 1
 --- !u!4 &460447707
 Transform:
   m_ObjectHideFlags: 0
@@ -233,6 +235,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a41d5abdce6c41d3a19297ac92651658, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &460447712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 460447703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02f1bdb6b0f64499aaba339b477c1ebc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileName: game.dat
 --- !u!1 &643273298
 GameObject:
   m_ObjectHideFlags: 0

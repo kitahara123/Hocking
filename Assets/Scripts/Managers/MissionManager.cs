@@ -1,3 +1,4 @@
+using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,17 +17,19 @@ namespace Managers
         {
             Debug.Log("Mission manager starting...");
 
-            curLevel = 0;
-            maxLevel = 2;
+            UpdateData(0, 2);
 
             SceneManager.sceneLoaded += OnSceneLoaded;
             status = ManagerStatus.Started;
         }
 
-        public void ObjectiveReached()
+        public void UpdateData(int curLevel, int maxLevel)
         {
-            Messenger.Broadcast(GameEvent.LEVEL_COMPLETED);
+            this.curLevel = curLevel;
+            this.maxLevel = maxLevel;
         }
+
+        public void ObjectiveReached() => Messenger.Broadcast(GameEvent.LEVEL_COMPLETED);
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode arg1)
         {
@@ -51,6 +54,7 @@ namespace Managers
             else
             {
                 Debug.Log("Last level");
+                Messenger.Broadcast(GameEvent.GAME_COMPLETED);
             }
         }
 

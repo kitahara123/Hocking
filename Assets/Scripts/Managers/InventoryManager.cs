@@ -6,7 +6,7 @@ namespace Managers
     public class InventoryManager : MonoBehaviour, IGameManager
     {
         [SerializeField] private int healthKitDelta = 25;
-        
+
         public ManagerStatus status { get; private set; }
         public string EquippedItem { get; private set; }
 
@@ -18,9 +18,12 @@ namespace Managers
             Debug.Log("Inventory manager starting...");
 
             Opened = false;
-            items = new Dictionary<string, int>();
+            UpdateData(new Dictionary<string, int>());
             status = ManagerStatus.Started;
         }
+
+        public void UpdateData(Dictionary<string, int> items) => this.items = items;
+        public Dictionary<string, int> GetData() => items;
 
         public void AddItem(string name)
         {
@@ -58,6 +61,7 @@ namespace Managers
             {
                 return false;
             }
+
             return true;
         }
 

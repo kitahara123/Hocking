@@ -7,6 +7,7 @@ namespace Managers
 {
     [RequireComponent(typeof(PlayerManager), typeof(InventoryManager), typeof(ImagesManager))]
     [RequireComponent(typeof(AudioManager), typeof(SettingsManager), typeof(MissionManager))]
+    [RequireComponent(typeof(DataManager))]
     public class Managers : MonoBehaviour
     {
         public static PlayerManager Player { get; private set; }
@@ -15,6 +16,7 @@ namespace Managers
         public static AudioManager Audio { get; private set; }
         public static SettingsManager Settings { get; private set; }
         public static MissionManager Mission { get; private set; }
+        public static DataManager Data { get; private set; }
 
         private List<IGameManager> startSequence;
 
@@ -26,8 +28,9 @@ namespace Managers
             Audio = GetComponent<AudioManager>();
             Settings = GetComponent<SettingsManager>();
             Mission = GetComponent<MissionManager>();
+            Data = GetComponent<DataManager>();
 
-            startSequence = new List<IGameManager> {Player, Inventory, Images, Audio, Settings, Mission};
+            startSequence = new List<IGameManager> {Player, Inventory, Images, Audio, Settings, Mission, Data};
             StartCoroutine(StartupManagers());
         }
 

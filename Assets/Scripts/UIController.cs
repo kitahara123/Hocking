@@ -13,6 +13,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelEnding;
     [SerializeField] private string levelCompleteMessage = "Level Complete!";
     [SerializeField] private string levelFailedMessage = "Level Failed";
+    [SerializeField] private string gameCompleteMessage = "You Finished the Game!";
 
     private int score;
 
@@ -22,6 +23,7 @@ public class UIController : MonoBehaviour
         Messenger.AddListener(GameEvent.HEALTH_UPDATED, OnHealthUpdated);
         Messenger.AddListener(GameEvent.LEVEL_COMPLETED, OnLevelComplete);
         Messenger.AddListener(GameEvent.LEVEL_FAILED, OnLevelFailed);
+        Messenger.AddListener(GameEvent.GAME_COMPLETED, OnGameComplete);
 
         if (!Managers.Managers.Settings.Isometric)
         {
@@ -30,12 +32,19 @@ public class UIController : MonoBehaviour
         }
     }
 
+    private void OnGameComplete()
+    {
+        levelEnding.gameObject.SetActive(true);
+        levelEnding.text = gameCompleteMessage;
+    }
+
     private void OnDestroy()
     {
         Messenger.RemoveListener(GameEvent.ENEMY_HIT, OnEnemyHit);
         Messenger.RemoveListener(GameEvent.HEALTH_UPDATED, OnHealthUpdated);
         Messenger.RemoveListener(GameEvent.LEVEL_COMPLETED, OnLevelComplete);
         Messenger.RemoveListener(GameEvent.LEVEL_FAILED, OnLevelFailed);
+        Messenger.RemoveListener(GameEvent.GAME_COMPLETED, OnGameComplete);
     }
 
     private void Start()
@@ -80,6 +89,9 @@ public class UIController : MonoBehaviour
         Managers.Managers.Player.Respawn();
         Managers.Managers.Mission.RestartCurrent();
     }
+
+    public void SaveGame() => Managers.Managers.Data.SaveGameState();
+    public void LoadGame() => Managers.Managers.Data.LoadGameState();
 
     private void Update()
     {

@@ -10,6 +10,8 @@ public class SettingsPopup : MonoBehaviour
     [SerializeField] private Toggle soundToggle;
     [SerializeField] private Toggle musicToggle;
     [SerializeField] private AudioClip clickSound;
+    [SerializeField] private Button saveButton;
+    [SerializeField] private Button loadButton;
     private float speed = 1;
 
     public void Open()
@@ -24,6 +26,8 @@ public class SettingsPopup : MonoBehaviour
         musicToggle.isOn = Managers.Managers.Audio.MusicMute;
         Managers.Managers.Audio.PlayIntroMusic();
         gameObject.SetActive(true);
+        saveButton.gameObject.SetActive(true);
+        loadButton.gameObject.SetActive(true);
     }
 
     public void Close()
@@ -38,6 +42,8 @@ public class SettingsPopup : MonoBehaviour
         PlayerPrefs.SetFloat("Speed", speed);
         Managers.Managers.Audio.PlayLevelMusic();
         gameObject.SetActive(false);
+        saveButton.gameObject.SetActive(false);
+        loadButton.gameObject.SetActive(false);
     }
     
     public void OpenClose()

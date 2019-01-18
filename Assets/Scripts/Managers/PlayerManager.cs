@@ -14,10 +14,16 @@ namespace Managers
         public void Startup(NetworkService service)
         {
             Debug.Log("Player manager starting...");
-            health = 50;
-            maxHealth = 100;
+
+            UpdateData(50, 100);
 
             status = ManagerStatus.Started;
+        }
+
+        public void UpdateData(int value, int value1)
+        {
+            health = value;
+            maxHealth = value1;
         }
 
         public void ChangeHealth(int value)
@@ -34,11 +40,7 @@ namespace Managers
             if (health == 0) Messenger.Broadcast(GameEvent.LEVEL_FAILED);
         }
 
-        public void Respawn()
-        {
-            health = 50;
-            maxHealth = 100;
-        }
+        public void Respawn() => UpdateData(50, 100);
 
         public void Hurt(int damage)
         {
