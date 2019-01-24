@@ -11,6 +11,7 @@ namespace Managers
         public string EquippedItem { get; private set; }
 
         public bool Opened { get; private set; }
+        public bool IsEmpty => items.Count == 0;
         private Dictionary<string, int> items;
 
         public void Startup(NetworkService service)

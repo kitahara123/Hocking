@@ -95,7 +95,16 @@ public class UIController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Cancel")) settingsPopup.OpenClose();
-        if (Input.GetButtonDown("Inventory")) inventoryPopup.OpenClose();
+        if (Input.GetButtonDown("Cancel"))
+        {
+            if (inventoryPopup.isActiveAndEnabled) inventoryPopup.Close();
+            settingsPopup.OpenClose();
+        }
+
+        if (Input.GetButtonDown("Inventory"))
+        {
+            if (settingsPopup.isActiveAndEnabled) settingsPopup.Close();
+            inventoryPopup.OpenClose();
+        }
     }
 }

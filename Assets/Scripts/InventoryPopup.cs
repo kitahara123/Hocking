@@ -10,6 +10,7 @@ public class InventoryPopup : MonoBehaviour
     [SerializeField] private Image equippedBg;
     [SerializeField] private TextMeshProUGUI[] itemLabels;
     [SerializeField] private TextMeshProUGUI selectedItemLabel;
+    [SerializeField] private TextMeshProUGUI placeholderLabel;
     [SerializeField] private Button equipButton;
     [SerializeField] private Button useButton;
 
@@ -22,6 +23,7 @@ public class InventoryPopup : MonoBehaviour
     {
         if (Managers.Managers.Inventory.EquippedItem == null) equippedBg.gameObject.SetActive(false);
         var itemList = Managers.Managers.Inventory.GetItemList();
+        placeholderLabel.gameObject.SetActive(itemList.Count == 0);
 
         var len = itemIcons.Length;
         for (var i = 0; i < len; i++)
@@ -115,7 +117,7 @@ public class InventoryPopup : MonoBehaviour
         else Open();
     }
 
-    private void Open()
+    public void Open()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -124,7 +126,7 @@ public class InventoryPopup : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    private void Close()
+    public void Close()
     {
         if (!Managers.Managers.Settings.Isometric)
         {
