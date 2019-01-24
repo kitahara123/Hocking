@@ -37,26 +37,24 @@ namespace Managers
         private IEnumerator StartupManagers()
         {
             NetworkService network = new NetworkService();
+            float numReady = 0;
+            float numModules = startSequence.Count;
+            
             foreach (var manager in startSequence)
             {
                 manager.Startup(network);
-            }
 
-            yield return null;
-
-            var numModules = startSequence.Count;
-            var numReady = 0;
-
-            while (numReady < numModules)
-            {
-                numReady = startSequence.Count(e => e.status == ManagerStatus.Started);
-                Debug.Log($"Progress: {numReady}/{numModules}");
-                Messenger<int, int>.Broadcast(StartupEvent.MANAGERS_PROGRESS, numReady, numModules);
                 yield return null;
+                if (numReady < numModules)
+                {
+                    numReady = startSequence.Count(e => e.status == ManagerStatus.Started);
+                    Debug.Log($"Progress: {numReady}/{numModules}");
+                    Messenger<float>.Broadcast(SystemEvent.LOADING_PROGRESS, (numReady / numModules) / 2);
+                }
             }
 
             Debug.Log("All managers started up");
-            Messenger.Broadcast(StartupEvent.MANAGERS_STARTED);
+            Messenger.Broadcast(SystemEvent.MANAGERS_STARTED);
         }
     }
 }

@@ -40,10 +40,13 @@ public static class GameEvent
 	public const string LEVEL_FAILED = "LEVEL_FAILED";
 	public const string GAME_COMPLETED = "GAME_COMPLETED";
 }
-public static class StartupEvent
+
+public static class SystemEvent
 {
+		
+	public const string LOADING_PROGRESS = "LOADING_PROGRESS";
 	public const string MANAGERS_STARTED = "MANAGERS_STARTED";
-	public const string MANAGERS_PROGRESS = "MANAGERS_PROGRESS";
+	
 }
 
 public enum MessengerMode {

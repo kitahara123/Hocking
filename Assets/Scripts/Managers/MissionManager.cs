@@ -1,4 +1,5 @@
-using UnityEditor.VersionControl;
+using System.Collections;
+using Controllers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,10 +7,16 @@ namespace Managers
 {
     public class MissionManager : MonoBehaviour, IGameManager
     {
+        [SerializeField] private LoadScreenController loadScreen;
+
+        [SerializeField] public string[] levelSequence;
+        
+        private const string MANAGERS_SCENE = "Managers";
         public ManagerStatus status { get; private set; }
 
         public int curLevel { get; private set; }
         public int maxLevel { get; private set; }
+        public LoadScreenController LoadScreen => loadScreen;
 
         private string prevScene;
 
@@ -17,7 +24,7 @@ namespace Managers
         {
             Debug.Log("Mission manager starting...");
 
-            UpdateData(0, 2);
+            UpdateData(-1, levelSequence.Length -1);
 
             SceneManager.sceneLoaded += OnSceneLoaded;
             status = ManagerStatus.Started;
@@ -33,8 +40,11 @@ namespace Managers
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode arg1)
         {
-            if (prevScene == "Managers" || prevScene == null) return;
-            SceneManager.UnloadSceneAsync(prevScene);
+            if (prevScene != MANAGERS_SCENE && prevScene != null)
+            {
+                SceneManager.UnloadSceneAsync(prevScene);
+                Debug.Log($"Unload {prevScene} scene");
+            }
             SceneManager.SetActiveScene(scene);
         }
 
@@ -42,14 +52,14 @@ namespace Managers
         {
             if (curLevel < maxLevel)
             {
+                LoadScreen.gameObject.SetActive(true);
+
                 curLevel++;
-                var name = $"Level{curLevel}";
+                var name = levelSequence[curLevel];
                 prevScene = SceneManager.GetActiveScene().name;
-                SceneManager.LoadSceneAsync(name, LoadSceneMode.Additive);
+                StartCoroutine(LoadScene(name));
 
-                Debug.Log($"Unload {prevScene}");
-                Debug.Log($"Loading {name}");
-
+                Debug.Log($"Loading {name} scene");
             }
             else
             {
@@ -58,12 +68,27 @@ namespace Managers
             }
         }
 
+        private IEnumerator LoadScene(string sceneName)
+        {
+            var load = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+
+            while (!load.isDone)
+            {
+                var progress = load.progress;
+                if (prevScene == MANAGERS_SCENE) progress = load.progress / 2 + 0.5f;
+                
+                Messenger<float>.Broadcast(SystemEvent.LOADING_PROGRESS, progress);
+                yield return null;
+            }
+        }
+
         public void RestartCurrent()
         {
-            var name = "Level" + curLevel;
+            LoadScreen.gameObject.SetActive(true);
+            var name = levelSequence[curLevel];
             Debug.Log("Loading " + name);
             prevScene = name;
-            SceneManager.LoadSceneAsync(name, LoadSceneMode.Additive);
+            StartCoroutine(LoadScene(name));
         }
 
         private void OnDestroy() => SceneManager.sceneLoaded -= OnSceneLoaded;
