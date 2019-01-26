@@ -8,7 +8,8 @@ namespace Managers
     public class MissionManager : MonoBehaviour, IGameManager
     {
 
-        [SerializeField] public string[] levelSequence;
+        [SerializeField] private string[] levelSequence;
+        [SerializeField] private LoadScreenController LoadScreen;
         
         private const string MANAGERS_SCENE = "Managers";
         public ManagerStatus status { get; private set; }
@@ -52,7 +53,7 @@ namespace Managers
         {
             if (curLevel < maxLevel)
             {
-                Managers.UI.LoadScreen.gameObject.SetActive(true);
+                LoadScreen.gameObject.SetActive(true);
 
                 curLevel++;
                 var name = levelSequence[curLevel];
@@ -84,7 +85,7 @@ namespace Managers
 
         public void RestartCurrent()
         {
-            Managers.UI.LoadScreen.gameObject.SetActive(true);
+            LoadScreen.gameObject.SetActive(true);
             var name = levelSequence[curLevel];
             Debug.Log("Loading " + name);
             prevScene = name;

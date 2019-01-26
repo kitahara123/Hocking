@@ -4,52 +4,43 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Managers
+namespace Controllers
 {
-    public class UIManager : MonoBehaviour, IGameManager
+    public class UIController : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI scoreLabel;
-        public bool scoreLabelOn;
         [SerializeField] private TextMeshProUGUI healthLabel;
-        public bool healthLabelOn;
         [SerializeField] private SettingsPopup settingsPopup;
-        public bool settingsOn;
         [SerializeField] private InventoryPopup inventoryPopup;
-        public bool inventoryOn;
-        [SerializeField] private int scoreDelta;
         [SerializeField] private TextMeshProUGUI levelEnding;
+        [SerializeField] private int scoreDelta;
         [SerializeField] private string levelCompleteMessage = "Level Complete!";
         [SerializeField] private string levelFailedMessage = "Level Failed";
         [SerializeField] private string gameCompleteMessage = "You Finished the Game!";
-        [SerializeField] private LoadScreenController loadScreen;
-        public LoadScreenController LoadScreen => loadScreen;
+
+        private bool scoreLabelOn = true;
+        private bool healthLabelOn = true;
+        private bool inventoryOn = true;
 
         private int score;
 
-        public ManagerStatus status { get; private set; }
-
-        public void Startup(NetworkService service)
+        public void Awake()
         {
-            Debug.Log("UI manager starting...");
-            
             Messenger.AddListener(GameEvent.ENEMY_HIT, OnEnemyHit);
             Messenger.AddListener(GameEvent.HEALTH_UPDATED, OnHealthUpdated);
             Messenger.AddListener(GameEvent.LEVEL_COMPLETED, OnLevelComplete);
             Messenger.AddListener(GameEvent.LEVEL_FAILED, OnLevelFailed);
             Messenger.AddListener(GameEvent.GAME_COMPLETED, OnGameComplete);
-            
-            if (!Managers.Settings.Isometric)
+
+            if (!Managers.Managers.Settings.Isometric)
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
             }
-            
-            OnHealthUpdated();
-            score = 0;
-            scoreLabel.text = score.ToString();
+
             RefreshUI();
-            
-            status = ManagerStatus.Started;
+            OnHealthUpdated();
+            OnScoreChanged(0);
         }
 
         private void OnDestroy()
@@ -63,36 +54,45 @@ namespace Managers
 
         public void RefreshUI()
         {
-            scoreLabel.gameObject.SetActive(scoreLabelOn);
-            healthLabel.gameObject.SetActive(healthLabelOn);
+            if (healthLabel == null) healthLabelOn = false;
+            else healthLabel.gameObject.SetActive(true);
+
+            if (scoreLabel == null) scoreLabelOn = false;
+            else scoreLabel.gameObject.SetActive(true);
+
+            if (inventoryPopup == null) inventoryOn = false;
         }
 
-        public void OnOpenSettings() => settingsPopup.OpenClose();
+        private void OnEnemyHit() => OnScoreChanged(scoreDelta);
 
-        private void OnEnemyHit()
+        private void OnScoreChanged(int value)
         {
-            score += scoreDelta;
+            if (!scoreLabelOn) return;
+            score += value;
             scoreLabel.text = score.ToString();
         }
 
         private void OnHealthUpdated()
         {
-            healthLabel.text = $"Health: {Managers.Player.health} / {Managers.Player.maxHealth}";
+            if (!healthLabelOn) return;
+            healthLabel.text = $"Health: {Managers.Managers.Player.health} / {Managers.Managers.Player.maxHealth}";
         }
 
         private void Update()
         {
-            if (Input.GetButtonDown("Cancel") && settingsOn)
-            {
-                if (inventoryPopup.isActiveAndEnabled) inventoryPopup.Close();
-                settingsPopup.OpenClose();
-            }
+            if (Input.GetButtonDown("Cancel")) OnOpenSettings();
 
             if (Input.GetButtonDown("Inventory") && inventoryOn)
             {
                 if (settingsPopup.isActiveAndEnabled) settingsPopup.Close();
                 inventoryPopup.OpenClose();
             }
+        }
+
+        public void OnOpenSettings()
+        {
+            if (inventoryOn && inventoryPopup.isActiveAndEnabled) inventoryPopup.Close();
+            settingsPopup.OpenClose();
         }
 
         private void OnLevelComplete() => StartCoroutine(CompleteLevel());
@@ -103,7 +103,7 @@ namespace Managers
             levelEnding.text = levelCompleteMessage;
             yield return new WaitForSeconds(2);
 
-            Managers.Mission.GoToNext();
+            Managers.Managers.Mission.GoToNext();
         }
 
         private void OnLevelFailed() => StartCoroutine(FailLevel());
@@ -114,8 +114,8 @@ namespace Managers
             levelEnding.text = levelFailedMessage;
             yield return new WaitForSeconds(2);
 
-            Managers.Player.Respawn();
-            Managers.Mission.RestartCurrent();
+            Managers.Managers.Player.Respawn();
+            Managers.Managers.Mission.RestartCurrent();
         }
 
         private void OnGameComplete()
@@ -124,7 +124,7 @@ namespace Managers
             levelEnding.text = gameCompleteMessage;
         }
 
-        public void SaveGame() => Managers.Data.SaveGameState();
-        public void LoadGame() => Managers.Data.LoadGameState();
+        public void SaveGame() => Managers.Managers.Data.SaveGameState();
+        public void LoadGame() => Managers.Managers.Data.LoadGameState();
     }
 }

@@ -7,7 +7,7 @@ namespace Managers
 {
     [RequireComponent(typeof(PlayerManager), typeof(InventoryManager), typeof(ImagesManager))]
     [RequireComponent(typeof(AudioManager), typeof(SettingsManager), typeof(MissionManager))]
-    [RequireComponent(typeof(DataManager), typeof(UIManager))]
+    [RequireComponent(typeof(DataManager))]
     public class Managers : MonoBehaviour
     {
         public static PlayerManager Player { get; private set; }
@@ -16,7 +16,6 @@ namespace Managers
         public static AudioManager Audio { get; private set; }
         public static SettingsManager Settings { get; private set; }
         public static MissionManager Mission { get; private set; }
-        public static UIManager UI { get; private set; }
         public static DataManager Data { get; private set; }
 
         private List<IGameManager> startSequence;
@@ -29,10 +28,9 @@ namespace Managers
             Audio = GetComponent<AudioManager>();
             Settings = GetComponent<SettingsManager>();
             Mission = GetComponent<MissionManager>();
-            UI = GetComponent<UIManager>();
             Data = GetComponent<DataManager>();
 
-            startSequence = new List<IGameManager> {Player, Inventory, Images, Audio, Settings, Mission, UI, Data};
+            startSequence = new List<IGameManager> {Player, Inventory, Images, Audio, Settings, Mission, Data};
             StartCoroutine(StartupManagers());
         }
 
@@ -46,7 +44,7 @@ namespace Managers
             {
                 manager.Startup(network);
 
-                yield return null;
+                yield return null; // так сделано специально
                 if (numReady < numModules)
                 {
                     numReady = startSequence.Count(e => e.status == ManagerStatus.Started);
