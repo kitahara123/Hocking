@@ -2,22 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WanderingAI : MonoBehaviour
+public class WanderingAI : SpeedControl
 {
-    [SerializeField] private float baseSpeed = 3.0f;
     [SerializeField] private float obstacleRange = 5.0f;
     private bool alive;
-    private float speed;
 
     [SerializeField] private Fireball fireballPrefab;
     private Fireball fireball;
 
-    private void Awake() => Messenger<float>.AddListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
-    private void OnDestroy() => Messenger<float>.RemoveListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
-
-    private void Start()
+    protected override void Start()
     {
-        speed = baseSpeed * PlayerPrefs.GetFloat("Speed", 1);
+        OnSpeedChanged(speedModifier);
         alive = true;
     }
 
@@ -48,6 +43,5 @@ public class WanderingAI : MonoBehaviour
         }
     }
     
-    private void OnSpeedChanged(float value) => speed = baseSpeed * value;
     public void SetAlive(bool value) => alive = value;
 }

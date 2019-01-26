@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BackAndForth : MonoBehaviour
+public class BackAndForth : SpeedControl
 {
-    [SerializeField] private float speed = 3.0f;
     [SerializeField] private float maxZ = 16.0f;
     [SerializeField] private float minZ = -16.0f;
 

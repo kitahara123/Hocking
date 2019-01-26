@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fireball : MonoBehaviour
+public class Fireball : SpeedControl
 {
 
-    [SerializeField] private float speed = 10.0f;
     [SerializeField] private int damage = 1;
 
     private void Update()

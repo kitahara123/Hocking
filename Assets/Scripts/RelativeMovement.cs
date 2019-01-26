@@ -2,12 +2,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(CharacterController))]
-public class RelativeMovement : MonoBehaviour
+public class RelativeMovement : SpeedControl
 {
-    [SerializeField] private float speedModifier = 1;
+    
     [SerializeField] private Transform target;
     [SerializeField] private float baseRotSpeed = 15.0f;
-    [SerializeField] private float baseMovementSpeed = 6.0f;
+
     [SerializeField] private float baseJumpForce = 15.0f;
     [SerializeField] private float baseGravity = -9.8f;
     [SerializeField] private float maxVelocity = -18.0f;
@@ -16,7 +16,6 @@ public class RelativeMovement : MonoBehaviour
     [SerializeField] private float offset = 1.3f;
 
     private float vertSpeed;
-    private float movementSpeed;
     private float rotSpeed;
     private float jumpForce;
     private float gravity;
@@ -31,10 +30,7 @@ public class RelativeMovement : MonoBehaviour
     private float curSpeed = 0f;
     private float deceleration;
 
-    private void Awake() => Messenger<float>.AddListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
-    private void OnDestroy() => Messenger<float>.RemoveListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
-
-    private void Start()
+    protected override void Start()
     {
         speedModifier = PlayerPrefs.GetFloat("Speed", speedModifier);
         OnSpeedChanged(speedModifier);
@@ -43,10 +39,10 @@ public class RelativeMovement : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    private void OnSpeedChanged(float value)
+    protected override void OnSpeedChanged(float value)
     {
         speedModifier = value;
-        movementSpeed = baseMovementSpeed * speedModifier;
+        speed = baseSpeed * speedModifier;
         rotSpeed = baseRotSpeed * speedModifier;
         jumpForce = baseJumpForce * speedModifier;
         gravity = baseGravity * speedModifier;
@@ -89,9 +85,9 @@ public class RelativeMovement : MonoBehaviour
             if (characterController.isGrounded)
             {
                 if (Vector3.Dot(movement, contact.normal) < 0)
-                    movement = contact.normal * movementSpeed;
+                    movement = contact.normal * speed;
                 else
-                    movement += contact.normal * movementSpeed;
+                    movement += contact.normal * speed;
             }
         }
 
@@ -109,9 +105,9 @@ public class RelativeMovement : MonoBehaviour
 
         if (horInput != 0 || vertInput != 0)
         {
-            movement.x = horInput * movementSpeed;
-            movement.z = vertInput * movementSpeed;
-            movement = Vector3.ClampMagnitude(movement, movementSpeed);
+            movement.x = horInput * speed;
+            movement.z = vertInput * speed;
+            movement = Vector3.ClampMagnitude(movement, speed);
 
             var tmp = target.rotation;
             target.eulerAngles = new Vector3(0, target.eulerAngles.y, 0);
@@ -136,7 +132,7 @@ public class RelativeMovement : MonoBehaviour
             {
                 if (mouseHit.transform.gameObject.layer != LayerMask.NameToLayer("Ground")) return Vector3.zero;
                 targetPos = mouseHit.point;
-                curSpeed = movementSpeed;
+                curSpeed = speed;
             }
         }
 
