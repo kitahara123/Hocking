@@ -1,10 +1,11 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Managers
 {
     public class PlayerManager : MonoBehaviour, IGameManager
     {
-        [SerializeField] private float invulState = 1f; 
+        [SerializeField] private float damageDelay = 1f; 
         public ManagerStatus status { get; private set; }
 
         public int health { get; private set; }
@@ -44,7 +45,7 @@ namespace Managers
 
         public void Hurt(int damage)
         {
-            if (Time.time < lastHitTime + invulState) return;
+            if (Time.time < lastHitTime + damageDelay) return;
             lastHitTime = Time.time;
             ChangeHealth(-damage);
         }

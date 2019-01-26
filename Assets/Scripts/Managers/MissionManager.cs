@@ -7,7 +7,6 @@ namespace Managers
 {
     public class MissionManager : MonoBehaviour, IGameManager
     {
-        [SerializeField] private LoadScreenController loadScreen;
 
         [SerializeField] public string[] levelSequence;
         
@@ -16,7 +15,7 @@ namespace Managers
 
         public int curLevel { get; private set; }
         public int maxLevel { get; private set; }
-        public LoadScreenController LoadScreen => loadScreen;
+        
 
         private string prevScene;
 
@@ -26,6 +25,7 @@ namespace Managers
 
             UpdateData(-1, levelSequence.Length -1);
 
+            Messenger.AddListener(SystemEvent.MANAGERS_STARTED, GoToNext);
             SceneManager.sceneLoaded += OnSceneLoaded;
             status = ManagerStatus.Started;
         }
@@ -52,7 +52,7 @@ namespace Managers
         {
             if (curLevel < maxLevel)
             {
-                LoadScreen.gameObject.SetActive(true);
+                Managers.UI.LoadScreen.gameObject.SetActive(true);
 
                 curLevel++;
                 var name = levelSequence[curLevel];
@@ -84,13 +84,17 @@ namespace Managers
 
         public void RestartCurrent()
         {
-            LoadScreen.gameObject.SetActive(true);
+            Managers.UI.LoadScreen.gameObject.SetActive(true);
             var name = levelSequence[curLevel];
             Debug.Log("Loading " + name);
             prevScene = name;
             StartCoroutine(LoadScene(name));
         }
 
-        private void OnDestroy() => SceneManager.sceneLoaded -= OnSceneLoaded;
+        private void OnDestroy()
+        {
+            Messenger.RemoveListener(SystemEvent.MANAGERS_STARTED, GoToNext);
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
     }
 }
