@@ -1,39 +1,51 @@
+using System.Collections;
 using UnityEngine;
 
 public class DoorOpenDevice : BaseDevice
 {
-    [SerializeField] private Vector3 dPos;
-    private bool open;
-
+    [SerializeField] private Vector3 deltaPos;
+    private bool opened;
+    private Vector3 finalPos;
+    private bool locked;
+    
     public override void Operate()
     {
-        if (open)
+        if (opened)
         {
-            Vector3 pos = transform.position - dPos;
-            transform.position = pos;
+            Deactivate();
         }
         else
         {
-            Vector3 pos = transform.position + dPos;
-            transform.position = pos;
+            Activate();
+        }
+    }
+
+    private IEnumerator Move()
+    {
+        while (transform.position != finalPos)
+        {
+            var v = Vector3.Slerp(transform.position, finalPos, 0.1f);
+            transform.position = v;
+            yield return null;
         }
 
-        open = !open;
+        locked = false;
+        opened = !opened;
     }
 
     public void Activate()
     {
-        if (open) return;
-        var pos = transform.position + dPos;
-        transform.position = pos;
-        open = true;
-    }
-    public void Deactivate()
-    {
-        if (!open) return;
-        var pos = transform.position - dPos;
-        transform.position = pos;
-        open = false;
+        if (opened || locked) return;
+        locked = true;
+        finalPos = transform.position + deltaPos;
+        StartCoroutine(Move());
     }
 
+    public void Deactivate()
+    {
+        if (!opened || locked) return;
+        locked = true;
+        finalPos = transform.position - deltaPos;
+        StartCoroutine(Move());
+    }
 }

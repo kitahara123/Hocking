@@ -4710,7 +4710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   requireKey: 1
-  dPos: {x: 0, y: -9.4, z: 0}
+  deltaPos: {x: 0, y: -9.3, z: 0}
 --- !u!65 &900592623
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6397,9 +6397,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedModifier: 1
+  baseSpeed: 6
   target: {fileID: 1183063944}
   baseRotSpeed: 15
-  baseMovementSpeed: 6
   baseJumpForce: 15
   baseGravity: -9.8
   maxVelocity: -18
@@ -7685,7 +7685,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   requireKey: 0
-  dPos: {x: 0, y: -9.4, z: 0}
+  deltaPos: {x: 0, y: -9.3, z: 0}
 --- !u!1 &1320474749
 GameObject:
   m_ObjectHideFlags: 0
