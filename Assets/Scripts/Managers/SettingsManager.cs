@@ -7,7 +7,7 @@ namespace Managers
         [SerializeField] private bool isometric;
         public ManagerStatus status { get; private set; }
         public bool Isometric => isometric;
-        
+
         public void Startup(NetworkService service)
         {
             Debug.Log("Settings manager starting...");

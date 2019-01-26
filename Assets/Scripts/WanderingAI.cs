@@ -10,9 +10,8 @@ public class WanderingAI : SpeedControl
     [SerializeField] private Fireball fireballPrefab;
     private Fireball fireball;
 
-    protected override void Start()
+    private void Start()
     {
-        OnSpeedChanged(speedModifier);
         alive = true;
     }
 

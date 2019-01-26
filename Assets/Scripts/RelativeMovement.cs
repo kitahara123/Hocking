@@ -30,11 +30,8 @@ public class RelativeMovement : SpeedControl
     private float curSpeed = 0f;
     private float deceleration;
 
-    protected override void Start()
+    private void Start()
     {
-        speedModifier = PlayerPrefs.GetFloat("Speed", speedModifier);
-        OnSpeedChanged(speedModifier);
-
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
     }
