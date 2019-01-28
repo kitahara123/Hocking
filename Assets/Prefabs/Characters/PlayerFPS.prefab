@@ -44,9 +44,9 @@ GameObject:
   - component: {fileID: 114094663488774686}
   - component: {fileID: 114296854715578674}
   - component: {fileID: 114469983667054848}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PlayerFPS
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -223,8 +223,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b421b84281052ab43be16f18ca600934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 5
-  maxHealth: 10
 --- !u!114 &114984267669149466
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -236,6 +234,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa63f9201a5b0704dbaffad1f4dcbd96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundSource: {fileID: 0}
+  hitWallSound: {fileID: 0}
+  hitEnemySound: {fileID: 0}
 --- !u!143 &143230446035207454
 CharacterController:
   m_ObjectHideFlags: 1
