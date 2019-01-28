@@ -1,10 +1,10 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(CharacterController))]
 public class RelativeMovement : SpeedControl
 {
-    
     [SerializeField] private Transform target;
     [SerializeField] private float baseRotSpeed = 15.0f;
 
@@ -29,12 +29,24 @@ public class RelativeMovement : SpeedControl
     private Vector3 targetPos = Vector3.one;
     private float curSpeed = 0f;
     private float deceleration;
+    private bool isometric;
 
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        isometric = Managers.Managers.Settings.Isometric;
+        Messenger<bool>.AddListener(GameEvent.ISOMETRIC_ENABLED, OnIsometricEnabled);
     }
+
+    protected override void OnDestroy()
+    {
+        Messenger<bool>.RemoveListener(GameEvent.ISOMETRIC_ENABLED, OnIsometricEnabled);
+        Messenger<float>.RemoveListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
+    }
+
+
+    private void OnIsometricEnabled(bool value) => isometric = value;
 
     protected override void OnSpeedChanged(float value)
     {
@@ -50,7 +62,6 @@ public class RelativeMovement : SpeedControl
 
     private void Update()
     {
-        var isometric = Managers.Managers.Settings.Isometric;
         var movement = isometric ? PointClickMovement() : WASDMovement();
 
         animator.speed = speedModifier;
@@ -127,8 +138,9 @@ public class RelativeMovement : SpeedControl
             RaycastHit mouseHit;
             if (Physics.Raycast(ray, out mouseHit))
             {
-                if (mouseHit.transform.gameObject.layer != LayerMask.NameToLayer("Ground")) return Vector3.zero;
-                targetPos = mouseHit.point;
+                targetPos = mouseHit.transform.gameObject.layer == LayerMask.NameToLayer("Ground")
+                    ? mouseHit.point
+                    : mouseHit.transform.gameObject.GetComponent<Collider>().ClosestPoint(transform.position);
                 curSpeed = speed;
             }
         }

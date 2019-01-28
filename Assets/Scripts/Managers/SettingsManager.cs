@@ -15,6 +15,10 @@ namespace Managers
             status = ManagerStatus.Started;
         }
 
-        public void IsometricToggle(bool value) => isometric = value;
+        public void IsometricToggle(bool value)
+        {
+            isometric = value;
+            Messenger<bool>.Broadcast(GameEvent.ISOMETRIC_ENABLED, value);
+        }
     }
 }

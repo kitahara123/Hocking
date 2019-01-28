@@ -3055,7 +3055,7 @@ GameObject:
   - component: {fileID: 568166742}
   m_Layer: 0
   m_Name: Monitor
-  m_TagString: Untagged
+  m_TagString: Device
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3084,6 +3084,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985de34ad9e44053ac98a566822d1e20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseSpeed: 6
   requireKey: 0
 --- !u!65 &568166743
 BoxCollider:
@@ -4679,7 +4680,7 @@ GameObject:
   - component: {fileID: 900592622}
   m_Layer: 0
   m_Name: door (1)
-  m_TagString: Untagged
+  m_TagString: Device
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4709,6 +4710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66031f7259164c3c983c79876e3266b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseSpeed: 6
   requireKey: 1
   deltaPos: {x: 0, y: -9.3, z: 0}
 --- !u!65 &900592623
@@ -6396,7 +6398,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 253473da10fe4c6b885970744829d7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedModifier: 1
   baseSpeed: 6
   target: {fileID: 1183063944}
   baseRotSpeed: 15
@@ -6482,6 +6483,8 @@ GameObject:
   - component: {fileID: 1183063943}
   - component: {fileID: 1183063942}
   - component: {fileID: 1183063945}
+  - component: {fileID: 1183063946}
+  - component: {fileID: 1183063947}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -6565,10 +6568,37 @@ MonoBehaviour:
   mouseSens: 3
   minVertAngles: -40
   maxVertAngles: 50
-  cameraDistanse: 1
+  cameraDistance: 1
   isometricVertAngle: 35
   isometricHorAngle: 25
-  isometricDistanse: 2
+  isometricDistance: 2
+--- !u!65 &1183063946
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1183063941}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.0000001, z: 8.249984}
+  m_Center: {x: 0.00000834465, y: -0.00001013279, z: 3.6943507}
+--- !u!54 &1183063947
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1183063941}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1198264664
 GameObject:
   m_ObjectHideFlags: 0
@@ -7303,6 +7333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4da4954aa5154a94801d76f73f6ce52c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseSpeed: 6
   requireKey: 0
 --- !u!65 &1284283956
 BoxCollider:
@@ -7597,7 +7628,7 @@ GameObject:
   - component: {fileID: 1309949676}
   m_Layer: 0
   m_Name: door
-  m_TagString: Untagged
+  m_TagString: Device
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7684,6 +7715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66031f7259164c3c983c79876e3266b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseSpeed: 6
   requireKey: 0
   deltaPos: {x: 0, y: -9.3, z: 0}
 --- !u!1 &1320474749
