@@ -22,13 +22,14 @@ public class DoorOpenDevice : BaseDevice
 
     private IEnumerator Move()
     {
-        while (transform.position != finalPos)
+        while (Vector3.Distance(transform.position, finalPos) > 0.1f)
         {
-            var v = Vector3.Slerp(transform.position, finalPos, 0.1f);
+            var v = Vector3.Slerp(transform.position, finalPos, 0.1f * speedModifier);
             transform.position = v;
             yield return null;
         }
 
+        transform.position = finalPos;
         locked = false;
         opened = !opened;
     }

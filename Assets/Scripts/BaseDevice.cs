@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BaseDevice : MonoBehaviour
+public class BaseDevice : SpeedControl
 {
         [SerializeField] private bool requireKey;
         private void OnMouseDown()
