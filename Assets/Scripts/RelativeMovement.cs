@@ -132,7 +132,7 @@ public class RelativeMovement : SpeedControl
     private Vector3 PointClickMovement()
     {
         var movement = Vector3.zero;
-        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
+        if ((Input.GetMouseButton(0) || Input.GetMouseButtonDown(1)) && !EventSystem.current.IsPointerOverGameObject())
         {
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit mouseHit;
@@ -143,6 +143,11 @@ public class RelativeMovement : SpeedControl
                     : mouseHit.transform.gameObject.GetComponent<Collider>().ClosestPoint(transform.position);
                 curSpeed = speed;
             }
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            curSpeed = 0;
         }
 
         if (targetPos != Vector3.one && Vector3.Distance(targetPos, transform.position) > offset && speedModifier > 0)
