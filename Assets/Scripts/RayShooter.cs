@@ -8,7 +8,7 @@ public class RayShooter : MonoBehaviour
     private new Camera camera;
     [SerializeField] private AudioSource soundSource;
     [SerializeField] private AudioClip hitWallSound;
-    [SerializeField] private AudioClip hitEnemySound;
+
 
     private void Start()
     {
@@ -37,12 +37,10 @@ public class RayShooter : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 var hitObject = hit.transform.gameObject;
-                var target = hitObject.GetComponent<Target>();
+                var target = hitObject.GetComponent<Creature>();
                 if (target != null && target.Alive)
                 {
-                    target.ReactToHit();
-                    soundSource.PlayOneShot(hitEnemySound);
-                    Messenger.Broadcast(GameEvent.ENEMY_HIT);
+                    target.Hurt(10);
                 }
                 else
                 {

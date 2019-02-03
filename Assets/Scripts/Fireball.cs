@@ -7,6 +7,11 @@ public class Fireball : SpeedControl
 
     [SerializeField] private int damage = 1;
 
+    private void Start()
+    {
+        Destroy(gameObject, 10);
+    }
+
     private void Update()
     {
         transform.Translate(0, 0, speed * Time.deltaTime);

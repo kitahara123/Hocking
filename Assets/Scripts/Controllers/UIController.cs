@@ -26,7 +26,7 @@ namespace Controllers
 
         public void Awake()
         {
-            Messenger.AddListener(GameEvent.ENEMY_HIT, OnEnemyHit);
+            Messenger.AddListener(GameEvent.SCORE_EARNED, OnEnemyHit);
             Messenger.AddListener(GameEvent.HEALTH_UPDATED, OnHealthUpdated);
             Messenger.AddListener(GameEvent.LEVEL_COMPLETED, OnLevelComplete);
             Messenger.AddListener(GameEvent.LEVEL_FAILED, OnLevelFailed);
@@ -45,7 +45,7 @@ namespace Controllers
 
         private void OnDestroy()
         {
-            Messenger.RemoveListener(GameEvent.ENEMY_HIT, OnEnemyHit);
+            Messenger.RemoveListener(GameEvent.SCORE_EARNED, OnEnemyHit);
             Messenger.RemoveListener(GameEvent.HEALTH_UPDATED, OnHealthUpdated);
             Messenger.RemoveListener(GameEvent.LEVEL_COMPLETED, OnLevelComplete);
             Messenger.RemoveListener(GameEvent.LEVEL_FAILED, OnLevelFailed);

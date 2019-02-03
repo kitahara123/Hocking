@@ -31,7 +31,7 @@ using System.Linq;
 
 public static class GameEvent
 {
-	public const string ENEMY_HIT = "ENEMY_HIT";
+	public const string SCORE_EARNED = "SCORE_EARNED";
 	public const string SPEED_CHANGED = "SPEED_CHANGED";
 	public const string CAMERA_LOCK = "CAMERA_LOCK";
 	public const string HEALTH_UPDATED = "HEALTH_UPDATED";

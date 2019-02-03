@@ -12,7 +12,7 @@ public class DirectedAttack : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("HIT OR MISS I GUESS THEY NEVER MIS HUH");
+           other.GetComponent<Creature>().Hurt(damage);
         }
     }
 }

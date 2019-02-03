@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class SpeedControl : MonoBehaviour
 {
-    protected static float speedModifier = 1;
     [SerializeField] protected float baseSpeed = 6.0f;
+    protected static float speedModifier = 1;
     protected float speed;
 
     protected virtual void Awake()
