@@ -24,9 +24,9 @@ namespace Managers
         public void SaveGameState()
         {
             Dictionary<string, object> gameState = new Dictionary<string, object>();
-            gameState.Add("inventory", Managers.Inventory.GetData());
-            gameState.Add("health", Managers.Player.health);
-            gameState.Add("maxHealth", Managers.Player.maxHealth);
+            gameState.Add("inventory", Managers.Player.Player.Inventory.GetData());
+            gameState.Add("HP", Managers.Player.Player.HP);
+            gameState.Add("maxHP", Managers.Player.Player.maxHP);
             gameState.Add("curLevel", Managers.Mission.curLevel);
             gameState.Add("maxLevel", Managers.Mission.maxLevel);
 
@@ -50,8 +50,8 @@ namespace Managers
             gameState = formatter.Deserialize(stream) as Dictionary<string, object>;
             stream.Close();
             
-            Managers.Inventory.UpdateData(gameState["inventory"] as Dictionary<string, int>);
-            Managers.Player.UpdateData((int)gameState["health"], (int)gameState["maxHealth"]);
+            Managers.Player.Player.Inventory.UpdateData(gameState["inventory"] as Dictionary<string, List<CollectibleItem>>);
+            Managers.Player.Player.UpdateData((int)gameState["HP"], (int)gameState["maxHP"]);
             Managers.Mission.UpdateData((int)gameState["curLevel"], (int)gameState["maxLevel"]);
             Managers.Mission.RestartCurrent();
         }

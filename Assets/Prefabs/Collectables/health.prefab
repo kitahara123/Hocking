@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: health
+  value: 25
 --- !u!135 &135267807161748476
 SphereCollider:
   m_ObjectHideFlags: 1

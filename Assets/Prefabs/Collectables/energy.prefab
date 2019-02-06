@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: energy
+  value: 5
 --- !u!135 &135327120863338580
 SphereCollider:
   m_ObjectHideFlags: 1

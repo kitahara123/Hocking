@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Fireball : SpeedControl
 {
-
     [SerializeField] private int damage = 1;
 
     private void Start()
@@ -20,10 +19,14 @@ public class Fireball : SpeedControl
     private void OnTriggerEnter(Collider other)
     {
         var player = other.GetComponent<PlayerCharacter>();
-        if (player != null)
+        if (player == null)
         {
-            player.Hurt(damage);
+            Destroy(gameObject);
+            return;
         }
+
+        if (other is SphereCollider) return;
+        player.Hurt(damage);
         Destroy(gameObject);
     }
 }

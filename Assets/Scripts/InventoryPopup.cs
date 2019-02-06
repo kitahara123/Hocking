@@ -21,8 +21,10 @@ public class InventoryPopup : MonoBehaviour
 
     public void Refresh()
     {
-        if (Managers.Managers.Inventory.EquippedItem == null) equippedBg.gameObject.SetActive(false);
-        var itemList = Managers.Managers.Inventory.GetItemList();
+        var inventory = Managers.Managers.Player.Player.Inventory;
+        
+        if (inventory.EquippedItem == null) equippedBg.gameObject.SetActive(false);
+        var itemList = inventory.GetItemList();
         placeholderLabel.gameObject.SetActive(itemList.Count == 0);
 
         var len = itemIcons.Length;
@@ -39,9 +41,9 @@ public class InventoryPopup : MonoBehaviour
                 itemIcons[i].sprite = sprite;
                 itemIcons[i].SetNativeSize();
 
-                var count = Managers.Managers.Inventory.GetItemCount(item);
+                var count = inventory.GetItemCount(item);
                 var message = $"x{count}";
-                if (item == Managers.Managers.Inventory.EquippedItem)
+                if (item == inventory.EquippedItem)
                 {
                     equippedBg.transform.position = new Vector3(itemIcons[i].transform.position.x,
                         equippedBg.transform.position.y, equippedBg.transform.position.z);
@@ -101,13 +103,13 @@ public class InventoryPopup : MonoBehaviour
 
     public void OnEquip()
     {
-        Managers.Managers.Inventory.EquipItem(selectedItem);
+        Managers.Managers.Player.Player.Inventory.EquipItem(selectedItem);
         Refresh();
     }
 
     public void OnUse()
     {
-        Managers.Managers.Inventory.ConsumeItem(selectedItem);
+        Managers.Managers.Player.Player.Inventory.ConsumeItem(selectedItem);
         Refresh();
     }
 

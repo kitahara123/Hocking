@@ -13630,6 +13630,7 @@ MonoBehaviour:
   levelCompleteMessage: Level Complete!
   levelFailedMessage: Level Failed
   gameCompleteMessage: You Finished the Game!
+  scoresToWin: 40
 --- !u!4 &1694338152
 Transform:
   m_ObjectHideFlags: 0
@@ -13889,6 +13890,16 @@ Prefab:
         type: 2}
       propertyPath: m_RenderingPath
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114469983667054848, guid: f8a7c9782c9fe194e9b515321607edc3,
+        type: 2}
+      propertyPath: maxHP
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 114469983667054848, guid: f8a7c9782c9fe194e9b515321607edc3,
+        type: 2}
+      propertyPath: HP
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8a7c9782c9fe194e9b515321607edc3, type: 2}

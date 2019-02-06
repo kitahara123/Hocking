@@ -5,13 +5,12 @@ using UnityEngine;
 
 namespace Managers
 {
-    [RequireComponent(typeof(PlayerManager), typeof(InventoryManager), typeof(ImagesManager))]
+    [RequireComponent(typeof(PlayerManager), typeof(ImagesManager))]
     [RequireComponent(typeof(AudioManager), typeof(SettingsManager), typeof(MissionManager))]
     [RequireComponent(typeof(DataManager))]
     public class Managers : MonoBehaviour
     {
         public static PlayerManager Player { get; private set; }
-        public static InventoryManager Inventory { get; private set; }
         public static ImagesManager Images { get; private set; }
         public static AudioManager Audio { get; private set; }
         public static SettingsManager Settings { get; private set; }
@@ -23,14 +22,13 @@ namespace Managers
         private void Awake()
         {
             Player = GetComponent<PlayerManager>();
-            Inventory = GetComponent<InventoryManager>();
             Images = GetComponent<ImagesManager>();
             Audio = GetComponent<AudioManager>();
             Settings = GetComponent<SettingsManager>();
             Mission = GetComponent<MissionManager>();
             Data = GetComponent<DataManager>();
 
-            startSequence = new List<IGameManager> {Player, Inventory, Images, Audio, Settings, Mission, Data};
+            startSequence = new List<IGameManager> {Player, Images, Audio, Settings, Mission, Data};
             StartCoroutine(StartupManagers());
         }
 
@@ -44,7 +42,7 @@ namespace Managers
             {
                 manager.Startup(network);
 
-                yield return null; // так сделано специально
+                yield return null;
                 if (numReady < numModules)
                 {
                     numReady = startSequence.Count(e => e.status == ManagerStatus.Started);

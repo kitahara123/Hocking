@@ -1,8 +1,6 @@
 using System.Collections;
-using Controllers;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Controllers
 {
@@ -28,7 +26,7 @@ namespace Controllers
         public void Awake()
         {
             Messenger.AddListener(GameEvent.SCORE_EARNED, OnEnemyHit);
-            Messenger.AddListener(GameEvent.HEALTH_UPDATED, OnHealthUpdated);
+            Messenger<int, int>.AddListener(GameEvent.HEALTH_UPDATED, OnHealthUpdated);
             Messenger.AddListener(GameEvent.LEVEL_COMPLETED, OnLevelComplete);
             Messenger.AddListener(GameEvent.LEVEL_FAILED, OnLevelFailed);
             Messenger.AddListener(GameEvent.GAME_COMPLETED, OnGameComplete);
@@ -40,14 +38,13 @@ namespace Controllers
             }
 
             RefreshUI();
-            OnHealthUpdated();
             OnScoreChanged(0);
         }
 
         private void OnDestroy()
         {
             Messenger.RemoveListener(GameEvent.SCORE_EARNED, OnEnemyHit);
-            Messenger.RemoveListener(GameEvent.HEALTH_UPDATED, OnHealthUpdated);
+            Messenger<int, int>.RemoveListener(GameEvent.HEALTH_UPDATED, OnHealthUpdated);
             Messenger.RemoveListener(GameEvent.LEVEL_COMPLETED, OnLevelComplete);
             Messenger.RemoveListener(GameEvent.LEVEL_FAILED, OnLevelFailed);
             Messenger.RemoveListener(GameEvent.GAME_COMPLETED, OnGameComplete);
@@ -77,10 +74,10 @@ namespace Controllers
             }
         }
 
-        private void OnHealthUpdated()
+        private void OnHealthUpdated(int health, int maxHealth)
         {
             if (!healthLabelOn) return;
-            healthLabel.text = $"Health: {Managers.Managers.Player.health} / {Managers.Managers.Player.maxHealth}";
+            healthLabel.text = $"Health: {health} / {maxHealth}";
         }
 
         private void Update()
@@ -119,7 +116,6 @@ namespace Controllers
             levelEnding.text = levelFailedMessage;
             yield return new WaitForSeconds(2);
 
-            Managers.Managers.Player.Respawn();
             Managers.Managers.Mission.RestartCurrent();
         }
 
