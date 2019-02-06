@@ -26,7 +26,7 @@ public class RelativeMovement : SpeedControl
 
     [SerializeField] private float baseDeceleration = 20.0f;
     [SerializeField] private float targetBuffer = 1.5f;
-    private Vector3 targetPos = Vector3.one;
+    public static Vector3 targetPos = Vector3.one;
     private float curSpeed = 0f;
     private float deceleration;
     private bool isometric;
@@ -132,7 +132,7 @@ public class RelativeMovement : SpeedControl
     private Vector3 PointClickMovement()
     {
         var movement = Vector3.zero;
-        if ((Input.GetMouseButton(0) || Input.GetMouseButtonDown(1)) && !EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit mouseHit;
@@ -145,8 +145,17 @@ public class RelativeMovement : SpeedControl
             }
         }
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && !EventSystem.current.IsPointerOverGameObject())
         {
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit mouseHit;
+            if (Physics.Raycast(ray, out mouseHit))
+            {
+                targetPos = mouseHit.transform.gameObject.layer == LayerMask.NameToLayer("Ground")
+                    ? mouseHit.point
+                    : new Vector3(mouseHit.point.x, transform.position.y - characterController.height/2f, mouseHit.point.z);
+            }
+
             curSpeed = 0;
         }
 
