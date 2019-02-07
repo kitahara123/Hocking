@@ -17,6 +17,7 @@ namespace Controllers
         [SerializeField] private string levelCompleteMessage = "Level Complete!";
         [SerializeField] private string levelFailedMessage = "Level Failed";
         [SerializeField] private string gameCompleteMessage = "You Finished the Game!";
+        [SerializeField] private int scoresToWin = 40;
 
         private bool scoreLabelOn = true;
         private bool healthLabelOn = true;
@@ -70,6 +71,10 @@ namespace Controllers
             if (!scoreLabelOn) return;
             score += value;
             scoreLabel.text = score.ToString();
+            if (score >= scoresToWin)
+            {
+                OnLevelComplete();
+            }
         }
 
         private void OnHealthUpdated()

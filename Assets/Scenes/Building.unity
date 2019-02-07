@@ -3998,6 +3998,7 @@ MonoBehaviour:
   levelCompleteMessage: Level Complete!
   levelFailedMessage: Level Failed
   gameCompleteMessage: You Finished the Game!
+  scoresToWin: 40
 --- !u!4 &750348843
 Transform:
   m_ObjectHideFlags: 0
