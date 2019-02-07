@@ -124,8 +124,21 @@ namespace Controllers
             levelEnding.gameObject.SetActive(true);
             levelEnding.text = gameCompleteMessage;
         }
+        
+        public void RestartGame()
+        {
+            OnOpenSettings();
+            Managers.Managers.Mission.RestartGame();
+        }
+
+        public void RestartLevel()
+        {
+            OnOpenSettings();
+            Managers.Managers.Mission.RestartCurrent();
+        }
 
         public void SaveGame() => Managers.Managers.Data.SaveGameState();
         public void LoadGame() => Managers.Managers.Data.LoadGameState();
+        public void Exit() => Application.Quit();
     }
 }

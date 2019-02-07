@@ -7,23 +7,23 @@ namespace Managers
     {
         public string EquippedItem { get; private set; }
 
-        private Dictionary<string, List<CollectibleItem>> items;
+        private Dictionary<string, List<InventoryItem>> items;
 
         public Inventory()
         {
-            UpdateData(new Dictionary<string, List<CollectibleItem>>());
+            UpdateData(new Dictionary<string, List<InventoryItem>>());
         }
 
-        public void UpdateData(Dictionary<string, List<CollectibleItem>> items) => this.items = items;
-        public Dictionary<string, List<CollectibleItem>> GetData() => items;
+        public void UpdateData(Dictionary<string, List<InventoryItem>> items) => this.items = items;
+        public Dictionary<string, List<InventoryItem>> GetData() => items;
 
         public void AddItem(CollectibleItem item)
         {
             if (items.ContainsKey(item.Name))
-                items[item.Name].Add(item);
+                items[item.Name].Add(item.MakeSerialized());
             else
             {
-                items.Add(item.Name,  new List<CollectibleItem> {item});
+                items.Add(item.Name,  new List<InventoryItem> {item.MakeSerialized()});
             }
 
             Messenger.Broadcast(GameEvent.ITEM_ADDED, MessengerMode.DONT_REQUIRE_LISTENER);

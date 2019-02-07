@@ -23,6 +23,13 @@ public class InventoryPopup : MonoBehaviour
     {
         var inventory = Managers.Managers.Player.Player.Inventory;
         
+        Debug.Log("dlinna inventory" + Managers.Managers.Player.Player.Inventory.GetItemList().Count);
+        
+        foreach (var asd in Managers.Managers.Player.Player.Inventory.GetItemList())
+        {
+            Debug.Log(asd);
+        }
+        
         if (inventory.EquippedItem == null) equippedBg.gameObject.SetActive(false);
         var itemList = inventory.GetItemList();
         placeholderLabel.gameObject.SetActive(itemList.Count == 0);

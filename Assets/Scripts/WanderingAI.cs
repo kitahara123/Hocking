@@ -30,7 +30,7 @@ public class WanderingAI : SpeedControl
 
         var ray = new Ray(transform.position, transform.forward);
 
-        if (Physics.SphereCast(ray, 0.75f, obstacleRange))
+        if (speed > 0 && Physics.SphereCast(ray, 0.75f, obstacleRange))
         {
             var angle = Random.Range(-110, 110);
             transform.Rotate(0, angle, 0);

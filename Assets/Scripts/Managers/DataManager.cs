@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Managers
 {
@@ -50,7 +51,9 @@ namespace Managers
             gameState = formatter.Deserialize(stream) as Dictionary<string, object>;
             stream.Close();
             
-            Managers.Player.Player.Inventory.UpdateData(gameState["inventory"] as Dictionary<string, List<CollectibleItem>>);
+
+            Managers.Player.Player.Inventory.UpdateData(gameState["inventory"] as Dictionary<string, List<InventoryItem>>);
+//            Debug.Log("dlinna " + Managers.Player.Player.Inventory.GetItemList().Count);
             Managers.Player.Player.UpdateData((int)gameState["HP"], (int)gameState["maxHP"]);
             Managers.Mission.UpdateData((int)gameState["curLevel"], (int)gameState["maxLevel"]);
             Managers.Mission.RestartCurrent();

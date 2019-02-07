@@ -41,17 +41,15 @@ public class RelativeMovement : SpeedControl
 
     protected override void OnDestroy()
     {
+        base.OnDestroy();
         Messenger<bool>.RemoveListener(GameEvent.ISOMETRIC_ENABLED, OnIsometricEnabled);
-        Messenger<float>.RemoveListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
     }
-
 
     private void OnIsometricEnabled(bool value) => isometric = value;
 
     protected override void OnSpeedChanged(float value)
     {
-        speedModifier = value;
-        speed = baseSpeed * speedModifier;
+        base.OnSpeedChanged(value);
         rotSpeed = baseRotSpeed * speedModifier;
         jumpForce = baseJumpForce * speedModifier;
         gravity = baseGravity * speedModifier;
@@ -64,7 +62,6 @@ public class RelativeMovement : SpeedControl
     {
         var movement = isometric ? PointClickMovement() : WASDMovement();
 
-        animator.speed = speedModifier;
         animator.SetFloat("Speed", movement.sqrMagnitude);
 
         var check = (characterController.height + characterController.radius) / 1.9f;
@@ -153,7 +150,8 @@ public class RelativeMovement : SpeedControl
             {
                 targetPos = mouseHit.transform.gameObject.layer == LayerMask.NameToLayer("Ground")
                     ? mouseHit.point
-                    : new Vector3(mouseHit.point.x, transform.position.y - characterController.height/2f, mouseHit.point.z);
+                    : new Vector3(mouseHit.point.x, transform.position.y - characterController.height / 2f,
+                        mouseHit.point.z);
             }
 
             curSpeed = 0;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spawner : MonoBehaviour
+public class Spawner : SpeedControl
 {
     [SerializeField] private Creature rangedEnemyPrefab;
     [SerializeField] private Creature meleeEnemyPrefab;
@@ -25,10 +25,10 @@ public class Spawner : MonoBehaviour
 
     private void Update()
     {
-        if (cooldown || enemiesPerLevel <= enemiesKilledOnLevel) return;
+        if (speedModifier == 0 || cooldown || enemiesPerLevel <= enemiesKilledOnLevel) return;
         if (rangedEnemyNumber == 0 && meleeEnemyNumber == 0) return;
 
-        if (meleeCounter < meleeEnemyNumber)
+        if (meleeCounter < meleeEnemyNumber || rangedCounter < rangedEnemyNumber)
         {
             StartCoroutine(Spawn());
         }

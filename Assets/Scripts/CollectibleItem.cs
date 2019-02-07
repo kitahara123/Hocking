@@ -13,4 +13,12 @@ public class CollectibleItem : MonoBehaviour
         Managers.Managers.Player.Player.Inventory.AddItem(this);
         Destroy(gameObject);
     }
+
+    public InventoryItem MakeSerialized() => new InventoryItem(value, itemName);
+
+    public void Deserialize(InventoryItem item)
+    {
+        value = item.Value;
+        itemName = item.Name;
+    }
 }

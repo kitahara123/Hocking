@@ -58,6 +58,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4543385656868180}
   - component: {fileID: 95973253887275590}
+  - component: {fileID: 114385276980272792}
   m_Layer: 0
   m_Name: spikes
   m_TagString: Untagged
@@ -337,6 +338,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
+  destroyCalibrate: 2.4
+--- !u!114 &114385276980272792
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1631063857241082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3393255b172469eae8ec197a63b4a1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseSpeed: 6
 --- !u!114 &114778336096037520
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -349,6 +363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
+  destroyCalibrate: 2.4
 --- !u!114 &114783885347598086
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -361,3 +376,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
+  destroyCalibrate: 2.4
