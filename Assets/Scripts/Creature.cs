@@ -38,7 +38,6 @@ public class Creature : MonoBehaviour
         }
     }
 
-
     public void Hurt(int damage)
     {
         if (!Alive) return;
@@ -50,7 +49,6 @@ public class Creature : MonoBehaviour
 
         soundSource.PlayOneShot(hitSound);
     }
-
 
     private IEnumerator ReactToHit()
     {
@@ -78,7 +76,7 @@ public class Creature : MonoBehaviour
         if (CompareTag("Player")) Messenger.Broadcast(GameEvent.LEVEL_FAILED);
     }
 
-    public void UpdateData(int value, int value1)
+    public virtual void UpdateData(int value, int value1)
     {
         HP = value;
         maxHP = value1;

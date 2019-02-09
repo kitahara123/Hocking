@@ -16,6 +16,7 @@ namespace Managers
         public int curLevel { get; private set; }
         public int maxLevel { get; private set; }
 
+        public bool SceneLoaded { get; private set; }
 
         private string prevScene;
 
@@ -40,6 +41,7 @@ namespace Managers
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode arg1)
         {
+            SceneLoaded = true;
             if (prevScene != MANAGERS_SCENE && prevScene != null)
             {
                 SceneManager.UnloadSceneAsync(prevScene);
@@ -71,6 +73,7 @@ namespace Managers
 
         private IEnumerator LoadScene(string sceneName)
         {
+            SceneLoaded = false;
             var load = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
             while (!load.isDone)
@@ -94,8 +97,12 @@ namespace Managers
 
         public void RestartGame()
         {
+            prevScene = SceneManager.GetActiveScene().name;
             curLevel = 0;
-            RestartCurrent();
+            LoadScreen.gameObject.SetActive(true);
+            var name = levelSequence[curLevel];
+            Debug.Log("Loading " + name);
+            StartCoroutine(LoadScene(name));
         }
 
         private void OnDestroy()

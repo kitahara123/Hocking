@@ -30,9 +30,13 @@ namespace Controllers
             Messenger.AddListener(GameEvent.LEVEL_COMPLETED, OnLevelComplete);
             Messenger.AddListener(GameEvent.LEVEL_FAILED, OnLevelFailed);
             Messenger.AddListener(GameEvent.GAME_COMPLETED, OnGameComplete);
+        }
 
+        private void Start()
+        {
             if (!Managers.Managers.Settings.Isometric)
             {
+                Debug.Log("isometric = "+ false);
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
             }
@@ -124,7 +128,7 @@ namespace Controllers
             levelEnding.gameObject.SetActive(true);
             levelEnding.text = gameCompleteMessage;
         }
-        
+
         public void RestartGame()
         {
             OnOpenSettings();
@@ -138,7 +142,13 @@ namespace Controllers
         }
 
         public void SaveGame() => Managers.Managers.Data.SaveGameState();
-        public void LoadGame() => Managers.Managers.Data.LoadGameState();
+
+        public void LoadGame()
+        {
+            OnOpenSettings();
+            StartCoroutine(Managers.Managers.Data.LoadGameState());
+        }
+
         public void Exit() => Application.Quit();
     }
 }

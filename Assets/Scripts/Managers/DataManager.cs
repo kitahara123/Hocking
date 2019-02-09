@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -30,6 +31,9 @@ namespace Managers
             gameState.Add("maxHP", Managers.Player.Player.maxHP);
             gameState.Add("curLevel", Managers.Mission.curLevel);
             gameState.Add("maxLevel", Managers.Mission.maxLevel);
+            gameState.Add("positionX", Managers.Player.Player.transform.position.x);
+            gameState.Add("positionY", Managers.Player.Player.transform.position.y);
+            gameState.Add("positionZ", Managers.Player.Player.transform.position.z);
 
             var stream = File.Create(filePath);
             var formatter = new BinaryFormatter();
@@ -37,12 +41,12 @@ namespace Managers
             stream.Close();
         }
 
-        public void LoadGameState()
+        public IEnumerator LoadGameState()
         {
             if (!File.Exists(filePath))
             {
                 Debug.Log("No saved game");
-                return;
+                yield break;
             }
 
             Dictionary<string, object> gameState;
@@ -50,13 +54,20 @@ namespace Managers
             var stream = File.Open(filePath, FileMode.Open);
             gameState = formatter.Deserialize(stream) as Dictionary<string, object>;
             stream.Close();
-            
 
-            Managers.Player.Player.Inventory.UpdateData(gameState["inventory"] as Dictionary<string, List<InventoryItem>>);
-//            Debug.Log("dlinna " + Managers.Player.Player.Inventory.GetItemList().Count);
-            Managers.Player.Player.UpdateData((int)gameState["HP"], (int)gameState["maxHP"]);
-            Managers.Mission.UpdateData((int)gameState["curLevel"], (int)gameState["maxLevel"]);
             Managers.Mission.RestartCurrent();
+
+            yield return new WaitUntil(() => Managers.Mission.SceneLoaded);
+
+            Managers.Player.Player.Inventory.UpdateData(
+                gameState["inventory"] as Dictionary<string, List<InventoryItem>>);
+
+            Managers.Player.Player.UpdateData((int) gameState["HP"], (int) gameState["maxHP"]);
+
+            Managers.Player.Player.transform.position = new Vector3((float) gameState["positionX"],
+                (float) gameState["positionY"], (float) gameState["positionZ"]);
+
+            Managers.Mission.UpdateData((int) gameState["curLevel"], (int) gameState["maxLevel"]);
         }
     }
 }

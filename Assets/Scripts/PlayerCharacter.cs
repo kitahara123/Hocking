@@ -20,5 +20,11 @@ public class PlayerCharacter : Creature
         Messenger<int, int>.Broadcast(GameEvent.HEALTH_UPDATED, HP, maxHP);
     }
     
+    public override void UpdateData(int value, int value1)
+    {
+        base.UpdateData(value, value1);
+        Messenger<int, int>.Broadcast(GameEvent.HEALTH_UPDATED, HP, maxHP);
+    }
+    
 
 }
