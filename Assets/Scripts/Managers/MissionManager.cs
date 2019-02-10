@@ -46,7 +46,7 @@ namespace Managers
 
         public void GoToNext()
         {
-            if (curLevel < levelSequence.Length)
+            if (curLevel < levelSequence.Length -1)
             {
                 LoadScreen.gameObject.SetActive(true);
 
