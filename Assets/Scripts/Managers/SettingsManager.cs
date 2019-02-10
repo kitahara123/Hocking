@@ -24,7 +24,6 @@ namespace Managers
         public void IsometricToggle(bool value)
         {
             isometric = value;
-            Debug.Log("isometric = "+isometric);
             Messenger<bool>.Broadcast(GameEvent.ISOMETRIC_ENABLED, value, MessengerMode.DONT_REQUIRE_LISTENER);
             if (isometric)
             {

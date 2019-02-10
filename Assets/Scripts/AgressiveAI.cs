@@ -27,6 +27,7 @@ public class AgressiveAI : SpeedControl
         base.OnDestroy();
         creature = GetComponent<Creature>();
         creature.OnDeath -= Die;
+        
     }
 
     private void Update()
@@ -37,14 +38,15 @@ public class AgressiveAI : SpeedControl
         var distance = Vector3.Distance(player.position, transform.position);
         if (meleeRange < distance)
         {
-            transform.LookAt(player.position);
+            var direction = player.position - transform.position;
+            var rot = Quaternion.LookRotation(direction, transform.forward);
+            transform.rotation = Quaternion.Euler(0, rot.eulerAngles.y, 0);
             transform.Translate(0, 0, speed * Time.deltaTime);
         }
 
         if (!cooldown && meleeRange >= distance)
             StartCoroutine(Attack());
     }
-
 
     private void OnTriggerEnter(Collider other)
     {
