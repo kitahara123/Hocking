@@ -30,7 +30,6 @@ namespace Managers
             gameState.Add("HP", Managers.Player.Player.HP);
             gameState.Add("maxHP", Managers.Player.Player.maxHP);
             gameState.Add("curLevel", Managers.Mission.curLevel);
-            gameState.Add("maxLevel", Managers.Mission.maxLevel);
             gameState.Add("positionX", Managers.Player.Player.transform.position.x);
             gameState.Add("positionY", Managers.Player.Player.transform.position.y);
             gameState.Add("positionZ", Managers.Player.Player.transform.position.z);
@@ -41,7 +40,9 @@ namespace Managers
             stream.Close();
         }
 
-        public IEnumerator LoadGameState()
+        public void LoadGameState() => StartCoroutine(Loading());
+
+        private IEnumerator Loading()
         {
             if (!File.Exists(filePath))
             {
@@ -55,7 +56,8 @@ namespace Managers
             gameState = formatter.Deserialize(stream) as Dictionary<string, object>;
             stream.Close();
 
-            Managers.Mission.RestartCurrent();
+            Managers.Mission.UpdateData((int) gameState["curLevel"] -1);
+            Managers.Mission.GoToNext();
 
             yield return new WaitUntil(() => Managers.Mission.SceneLoaded);
 
@@ -67,7 +69,6 @@ namespace Managers
             Managers.Player.Player.transform.position = new Vector3((float) gameState["positionX"],
                 (float) gameState["positionY"], (float) gameState["positionZ"]);
 
-            Managers.Mission.UpdateData((int) gameState["curLevel"], (int) gameState["maxLevel"]);
         }
     }
 }

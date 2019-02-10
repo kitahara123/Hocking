@@ -14,46 +14,39 @@ namespace Managers
         public ManagerStatus status { get; private set; }
 
         public int curLevel { get; private set; }
-        public int maxLevel { get; private set; }
+        public string prevScene { get; private set; }
 
         public bool SceneLoaded { get; private set; }
-
-        private string prevScene;
 
         public void Startup(NetworkService service)
         {
             Debug.Log("Mission manager starting...");
 
-            UpdateData(-1, levelSequence.Length - 1);
+            UpdateData(-1);
 
             Messenger.AddListener(SystemEvent.MANAGERS_STARTED, GoToNext);
             SceneManager.sceneLoaded += OnSceneLoaded;
             status = ManagerStatus.Started;
         }
 
-        public void UpdateData(int curLevel, int maxLevel)
+        public void UpdateData(int curLevel)
         {
             this.curLevel = curLevel;
-            this.maxLevel = maxLevel;
         }
 
         public void ObjectiveReached() => Messenger.Broadcast(GameEvent.LEVEL_COMPLETED);
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode arg1)
         {
+            Debug.Log("Scene loaded: " + scene.name);
             SceneLoaded = true;
-            if (prevScene != MANAGERS_SCENE && prevScene != null)
-            {
-                SceneManager.UnloadSceneAsync(prevScene);
-                Debug.Log($"Unload {prevScene} scene");
-            }
-
+            
             SceneManager.SetActiveScene(scene);
         }
 
         public void GoToNext()
         {
-            if (curLevel < maxLevel)
+            if (curLevel < levelSequence.Length)
             {
                 LoadScreen.gameObject.SetActive(true);
 
@@ -74,8 +67,16 @@ namespace Managers
         private IEnumerator LoadScene(string sceneName)
         {
             SceneLoaded = false;
+            
+            if (prevScene != MANAGERS_SCENE && prevScene != null && SceneManager.GetSceneByName(prevScene).isLoaded)
+            {
+                Debug.Log($"Unload: {prevScene} scene");
+                SceneManager.UnloadSceneAsync(prevScene);
+            }
+            
             var load = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
+            Debug.Log("Loading: " + sceneName);
             while (!load.isDone)
             {
                 var progress = load.progress;
@@ -90,18 +91,16 @@ namespace Managers
         {
             LoadScreen.gameObject.SetActive(true);
             var name = levelSequence[curLevel];
-            Debug.Log("Loading " + name);
             prevScene = name;
             StartCoroutine(LoadScene(name));
         }
 
         public void RestartGame()
         {
+            LoadScreen.gameObject.SetActive(true);
             prevScene = SceneManager.GetActiveScene().name;
             curLevel = 0;
-            LoadScreen.gameObject.SetActive(true);
             var name = levelSequence[curLevel];
-            Debug.Log("Loading " + name);
             StartCoroutine(LoadScene(name));
         }
 

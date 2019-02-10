@@ -146,7 +146,7 @@ namespace Controllers
         public void LoadGame()
         {
             OnOpenSettings();
-            StartCoroutine(Managers.Managers.Data.LoadGameState());
+            Managers.Managers.Data.LoadGameState();
         }
 
         public void Exit() => Application.Quit();

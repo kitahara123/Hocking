@@ -26,6 +26,16 @@ namespace Managers
             isometric = value;
             Debug.Log("isometric = "+isometric);
             Messenger<bool>.Broadcast(GameEvent.ISOMETRIC_ENABLED, value, MessengerMode.DONT_REQUIRE_LISTENER);
+            if (isometric)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
         }
 
         private void OnDestroy() => Messenger<float>.RemoveListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
