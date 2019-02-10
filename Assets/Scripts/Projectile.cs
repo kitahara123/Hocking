@@ -2,31 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fireball : SpeedControl
+public class Projectile : SpeedControl
 {
     [SerializeField] private int damage = 1;
+    public string FriendlyFire { private get; set; }
 
-    private void Start()
+    protected virtual void Start()
     {
         Destroy(gameObject, 10);
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         transform.Translate(0, 0, speed * Time.deltaTime);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        var player = other.GetComponent<PlayerCharacter>();
-        if (player == null)
+        var creature = other.GetComponent<Creature>();
+        if (creature == null)
         {
             Destroy(gameObject);
             return;
         }
 
-        if (other is SphereCollider) return;
-        player.Hurt(damage);
+        if (other.CompareTag(FriendlyFire) || other is SphereCollider) return;
+        creature.Hurt(damage);
         Destroy(gameObject);
     }
 }

@@ -3836,8 +3836,8 @@ Transform:
   m_LocalPosition: {x: -44.6, y: 0, z: -38.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1765451853}
-  m_RootOrder: 26
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &944538828
 GameObject:
@@ -4728,8 +4728,8 @@ Transform:
   m_LocalPosition: {x: 47.1, y: 0, z: 24.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1765451853}
-  m_RootOrder: 25
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1403345087
 GameObject:
@@ -5031,9 +5031,31 @@ Prefab:
       propertyPath: soundSource
       value: 
       objectReference: {fileID: 136899198}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114984267669149466, guid: f8a7c9782c9fe194e9b515321607edc3, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: f8a7c9782c9fe194e9b515321607edc3, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &1425887990 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1094686436312310, guid: f8a7c9782c9fe194e9b515321607edc3,
+    type: 2}
+  m_PrefabInternal: {fileID: 1425887989}
+--- !u!114 &1425887991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1425887990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbc439ff76a24f748adb42dbb7badf38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseSpeed: 6
+  soundSource: {fileID: 136899198}
+  hitWallSound: {fileID: 8300000, guid: 64d615d01e6a0c04abdd62f819330e11, type: 3}
+  projectile: {fileID: 114203441303471388, guid: 39d2acb3760314f4491a2bb32b74abf2,
+    type: 2}
 --- !u!1 &1461970042
 GameObject:
   m_ObjectHideFlags: 0
@@ -5852,8 +5874,8 @@ Transform:
   m_LocalPosition: {x: 44.8, y: 0, z: -39.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1765451853}
-  m_RootOrder: 24
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1587858791
 GameObject:
@@ -6348,9 +6370,6 @@ Transform:
   - {fileID: 787446276}
   - {fileID: 1489793546}
   - {fileID: 1486089903}
-  - {fileID: 1582597963}
-  - {fileID: 1365273009}
-  - {fileID: 898371789}
   m_Father: {fileID: 142952674}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

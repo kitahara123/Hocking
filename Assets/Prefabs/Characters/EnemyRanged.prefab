@@ -253,5 +253,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackCD: 1
-  fireballPrefab: {fileID: 114520564016017404, guid: 9af5d8340cd89854a8ba0be3ad4cd8a6,
+  projectilePrefab: {fileID: 114520564016017404, guid: 9af5d8340cd89854a8ba0be3ad4cd8a6,
     type: 2}

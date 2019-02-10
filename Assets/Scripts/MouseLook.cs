@@ -2,15 +2,7 @@ using UnityEngine;
 
 public class MouseLook : MonoBehaviour
 {
-    private void Start()
-    {
-        var body = GetComponent<Rigidbody>();
-        if (body == null) return;
-        body.freezeRotation = true;
-    }
-
-
-    public enum RotationAxes
+    private enum RotationAxes
     {
         MouseXAndY = 0,
         MouseX = 1,
@@ -25,6 +17,13 @@ public class MouseLook : MonoBehaviour
     [SerializeField] private float maxVert = 45.0f;
 
     private float rotationX = 0;
+    
+    private void Start()
+    {
+        var body = GetComponent<Rigidbody>();
+        if (body == null) return;
+        body.freezeRotation = true;
+    }
 
     private void Update()
     {

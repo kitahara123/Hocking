@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class RangedAttackAI : AttackAI
 {
-    [SerializeField] private Fireball fireballPrefab;
+    [SerializeField] private Projectile projectilePrefab;
+    [SerializeField] private string friendlyFire = "Enemy";
 
-    private Fireball fireball;
+    private Projectile projectile;
 
     private void Update()
     {
-        if (alive && fireball == null)
+        if (alive && projectile == null)
         {
             StartCoroutine(Attack());
 
@@ -20,9 +21,10 @@ public class RangedAttackAI : AttackAI
     private IEnumerator Attack()
     {
         cooldown = true;
-        fireball = Instantiate(fireballPrefab);
-        fireball.transform.position = transform.TransformPoint(Vector3.forward * 1.5f);
-        fireball.transform.rotation = transform.rotation;
+        projectile = Instantiate(projectilePrefab);
+        projectile.FriendlyFire = friendlyFire;
+        projectile.transform.position = transform.TransformPoint(Vector3.forward * 1.5f);
+        projectile.transform.rotation = transform.rotation;
         yield return new WaitForSeconds(attackCD);
         cooldown = false;
     }
