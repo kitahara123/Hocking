@@ -3,33 +3,30 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(CharacterController))]
-public class RelativeMovement : SpeedControl
+public class RelativeMovement : MonoBehaviour
 {
     [SerializeField] private Transform target;
-    [SerializeField] private float baseRotSpeed = 15.0f;
+    [SerializeField] private float speed = 6;
+    [SerializeField] private float rotSpeed = 15.0f;
 
-    [SerializeField] private float baseJumpForce = 15.0f;
-    [SerializeField] private float baseGravity = -9.8f;
+    [SerializeField] private float jumpForce = 15.0f;
+    [SerializeField] private float gravity = -9.8f;
     [SerializeField] private float maxVelocity = -18.0f;
-    [SerializeField] private float baseMinFall = -1.5f;
+    [SerializeField] private float minFall = -1.5f;
     [SerializeField] private float pushForce = 3.0f;
     [SerializeField] private float offset = 1.3f;
+    [SerializeField] private float deceleration = 20.0f;
+    [SerializeField] private float targetBuffer = 1.5f;
 
     private float vertSpeed;
-    private float rotSpeed;
-    private float jumpForce;
-    private float gravity;
-    private float minFall;
     private CharacterController characterController;
     private ControllerColliderHit contact;
     private Animator animator;
-
-    [SerializeField] private float baseDeceleration = 20.0f;
-    [SerializeField] private float targetBuffer = 1.5f;
-    public static Vector3 targetPos = Vector3.one;
     private float curSpeed = 0f;
-    private float deceleration;
     private bool isometric;
+    private bool paused = false;
+
+    public static Vector3 targetPos = Vector3.one;
 
     private void Start()
     {
@@ -37,29 +34,26 @@ public class RelativeMovement : SpeedControl
         animator = GetComponent<Animator>();
         isometric = Managers.Managers.Settings.Isometric;
         Messenger<bool>.AddListener(GameEvent.ISOMETRIC_ENABLED, OnIsometricEnabled);
+        Messenger<float>.AddListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
     }
 
-    protected override void OnDestroy()
+
+    private void OnDestroy()
     {
-        base.OnDestroy();
         Messenger<bool>.RemoveListener(GameEvent.ISOMETRIC_ENABLED, OnIsometricEnabled);
+        Messenger<float>.RemoveListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
+    }
+    
+    private void OnSpeedChanged(float value)
+    {
+        paused = value == 0;
     }
 
     private void OnIsometricEnabled(bool value) => isometric = value;
 
-    protected override void OnSpeedChanged(float value)
-    {
-        base.OnSpeedChanged(value);
-        rotSpeed = baseRotSpeed * speedModifier;
-        jumpForce = baseJumpForce * speedModifier;
-        gravity = baseGravity * speedModifier;
-        minFall = baseMinFall * speedModifier;
-        vertSpeed = minFall * speedModifier;
-        deceleration = baseDeceleration * speedModifier;
-    }
-
     private void Update()
     {
+        if (paused) return;
         var movement = isometric ? PointClickMovement() : WASDMovement();
 
         animator.SetFloat("Speed", movement.sqrMagnitude);
@@ -157,7 +151,7 @@ public class RelativeMovement : SpeedControl
             curSpeed = 0;
         }
 
-        if (targetPos != Vector3.one && Vector3.Distance(targetPos, transform.position) > offset && speedModifier > 0)
+        if (targetPos != Vector3.one && Vector3.Distance(targetPos, transform.position) > offset)
         {
             if (Vector3.Distance(targetPos, transform.position) > targetBuffer)
             {

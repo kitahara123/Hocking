@@ -222,9 +222,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelSequence:
-  - BuildingFPS
   - Building
   - Room
+  - BuildingFPS
   LoadScreen: {fileID: 1062182175}
 --- !u!114 &460447712
 MonoBehaviour:
