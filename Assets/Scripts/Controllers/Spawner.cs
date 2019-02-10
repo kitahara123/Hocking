@@ -9,7 +9,7 @@ public class Spawner : SpeedControl
     [SerializeField] private int rangedEnemyNumber = 5;
     [SerializeField] private int meleeEnemyNumber = 15;
     [SerializeField] private int enemiesPerLevel = 40;
-    [SerializeField] private int spawnCD = 1;
+    [SerializeField] private float spawnCD = 1;
     private int enemiesKilledOnLevel;
     private bool cooldown;
 
@@ -21,23 +21,25 @@ public class Spawner : SpeedControl
     private void Start()
     {
         enemies = new List<Creature>();
+
+        StartCoroutine(StartSpawner());
     }
 
-    private void Update()
+    private IEnumerator StartSpawner()
     {
-        if (speedModifier == 0 || cooldown || enemiesPerLevel <= enemiesKilledOnLevel) return;
-        if (rangedEnemyNumber == 0 && meleeEnemyNumber == 0) return;
+        if (rangedEnemyNumber == 0 && meleeEnemyNumber == 0) yield break;
 
-        if (meleeCounter < meleeEnemyNumber || rangedCounter < rangedEnemyNumber)
+        while (enemiesPerLevel > enemiesKilledOnLevel)
         {
-            StartCoroutine(Spawn());
+            if (meleeCounter < meleeEnemyNumber || rangedCounter < rangedEnemyNumber || speedModifier != 0)
+                Spawn();
+
+            yield return new WaitForSeconds(spawnCD);
         }
     }
 
-    private IEnumerator Spawn()
+    private void Spawn()
     {
-        cooldown = true;
-
         float melees = 1;
         float ranges = 1;
         if (rangedEnemyNumber > 0) ranges = 0;
@@ -77,10 +79,7 @@ public class Spawner : SpeedControl
             };
         }
 
-
         enemies.Add(newEnemy);
         newEnemy.transform.position = transform.position;
-        yield return new WaitForSeconds(spawnCD);
-        cooldown = false;
     }
 }
