@@ -43,7 +43,7 @@ public class RelativeMovement : MonoBehaviour
         Messenger<bool>.RemoveListener(GameEvent.ISOMETRIC_ENABLED, OnIsometricEnabled);
         Messenger<float>.RemoveListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
     }
-    
+
     private void OnSpeedChanged(float value)
     {
         paused = value == 0;
@@ -53,7 +53,12 @@ public class RelativeMovement : MonoBehaviour
 
     private void Update()
     {
-        if (paused) return;
+        if (paused)
+        {
+            animator.SetFloat("Speed", 0);
+            return;
+        }
+
         var movement = isometric ? PointClickMovement() : WASDMovement();
 
         animator.SetFloat("Speed", movement.sqrMagnitude);

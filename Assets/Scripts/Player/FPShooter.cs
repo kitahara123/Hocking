@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PhysicShooter : SpeedControl
+public class FPShooter : SpeedControl
 {
     private new Camera camera;
     [SerializeField] private Projectile projectile;
@@ -10,7 +10,6 @@ public class PhysicShooter : SpeedControl
     private void Start()
     {
         camera = GetComponent<Camera>();
-
     }
 
     private void OnGUI()

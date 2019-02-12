@@ -42,5 +42,6 @@ public class PointClickAttack : SpeedControl
             
         go.transform.rotation = Quaternion.LookRotation(RelativeMovement.targetPos - go.transform.position) *
                                 go.transform.rotation;
+        Destroy(go, 1);
     }
 }

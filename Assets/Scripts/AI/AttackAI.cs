@@ -1,26 +1,30 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Creature))]
-public class AttackAI : MonoBehaviour
+public class AttackAI : SpeedControl
 {
-    [SerializeField]protected int attackCD = 1;
+    [SerializeField] private float calibrateSpeedDependence = 1.9f;
+    [SerializeField] protected float baseAttackCD = 1f;
     protected bool cooldown;
-    protected bool alive;
+    protected float attackCD;
 
     protected Creature creature;
-    protected virtual void Awake()
-    {
-        creature = GetComponent<Creature>();
-        alive = creature.Alive;
-        creature.OnDeath += Die;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        creature = GetComponent<Creature>();
     }
 
-    protected virtual void OnDestroy()
+    private void OnEnable()
     {
-        creature = GetComponent<Creature>();
-        creature.OnDeath -= Die;
+        cooldown = false;
     }
 
-    protected virtual void Die(Creature creature) => alive = false;
+    protected override void OnSpeedChanged(float value)
+    {
+        base.OnSpeedChanged(value);
+        if (speedModifier != 0)
+            attackCD = baseAttackCD * (calibrateSpeedDependence - Mathf.Log(speedModifier * speedModifier));
+    }
 }

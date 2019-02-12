@@ -17,10 +17,7 @@ public class Creature : MonoBehaviour
 
     public bool Alive { get; private set; } = true;
 
-    protected virtual void Start()
-    {
-        rend = GetComponent<MeshRenderer>();
-    }
+    protected virtual void Start() => rend = GetComponent<MeshRenderer>();
 
     public virtual void ChangeHealth(int value)
     {
@@ -44,10 +41,10 @@ public class Creature : MonoBehaviour
         if (Time.time < lastHitTime + damageDelay) return;
         lastHitTime = Time.time;
 
-        ChangeHealth(-damage);
-        StartCoroutine(ReactToHit());
-
         soundSource.PlayOneShot(hitSound);
+        ChangeHealth(-damage);
+        if (Alive)
+            StartCoroutine(ReactToHit());
     }
 
     private IEnumerator ReactToHit()
@@ -64,21 +61,28 @@ public class Creature : MonoBehaviour
     {
         Alive = false;
         transform.Rotate(-75, 0, 0);
-        OnDeath?.Invoke(this);
         yield return new WaitForSeconds(1.5f);
 
         if (CompareTag("Enemy"))
         {
             Messenger.Broadcast(GameEvent.SCORE_EARNED);
-            Destroy(gameObject);
         }
-
+        
         if (CompareTag("Player")) Messenger.Broadcast(GameEvent.LEVEL_FAILED);
+        
+        OnDeath?.Invoke(this);
     }
 
     public virtual void UpdateData(int value, int value1)
     {
         HP = value;
         maxHP = value1;
+    }
+
+    public void Reset()
+    {
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+        HP = maxHP;
+        Alive = true;
     }
 }

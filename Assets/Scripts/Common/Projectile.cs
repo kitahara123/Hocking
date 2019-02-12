@@ -1,16 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class Projectile : SpeedControl
 {
     [SerializeField] private int damage = 1;
     public Creature Shooter { get; set; }
-
-    protected virtual void Start()
-    {
-        Destroy(gameObject, 10);
-    }
+    public event Action<Projectile> OnDestroyed;
 
     protected virtual void Update()
     {
@@ -19,15 +14,16 @@ public class Projectile : SpeedControl
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.isTrigger) return;
         var creature = other.GetComponent<Creature>();
         if (creature == null)
         {
-            Destroy(gameObject);
+            OnDestroyed?.Invoke(this);
             return;
         }
 
-        if (other.CompareTag(Shooter.tag) || other is SphereCollider) return;
+        if (other.CompareTag(Shooter?.tag)) return;
         creature.Hurt(damage);
-        Destroy(gameObject);
+        OnDestroyed?.Invoke(this);
     }
 }

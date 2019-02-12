@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class BackAndForth : SpeedControl
 {
+    [SerializeField] private int damage = 100;
     private int direction = 1;
-    
+
     private void Update()
     {
-        transform.Translate(0,0, direction * speed * Time.deltaTime);
+        transform.Translate(0, 0, direction * speed * Time.deltaTime);
     }
 
-
-    private void OnCollisionEnter(Collision other)
+    //     Отталкивается от стен, при прикосновении к персонажу убивает его
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        var player = other.GetComponent<Creature>();
+        if (player != null)
         {
-            var player = other.gameObject.GetComponent<PlayerCharacter>();
-            player.Hurt(100);
+            player.Hurt(damage);
             Destroy(gameObject);
             return;
         }
+
         direction = -direction;
     }
-
 }
-

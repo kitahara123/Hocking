@@ -15,6 +15,7 @@ public class AggressiveRangedAI : SpeedControl
         wanderingAi = GetComponent<WanderingAI>();
     }
 
+    // При попадании снаряда игрока, разворачивается в его сторону и начинает стрейфиться из стороны в сторону
     private void OnTriggerEnter(Collider other)
     {
         if (!creature.Alive) return;
@@ -40,7 +41,7 @@ public class AggressiveRangedAI : SpeedControl
             transform.Translate(speed * Time.deltaTime, 0, 0);
             yield return null;
         }
-
+        
         wanderingAi.enabled = true;
     }
 }

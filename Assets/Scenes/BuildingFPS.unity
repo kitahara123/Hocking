@@ -398,106 +398,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!1 &136899191 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1272090738825610, guid: f8a7c9782c9fe194e9b515321607edc3,
-    type: 2}
-  m_PrefabInternal: {fileID: 1425887989}
---- !u!82 &136899198
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 136899191}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1001 &139465712
 Prefab:
   m_ObjectHideFlags: 0
@@ -3822,10 +3722,11 @@ MonoBehaviour:
   rangedEnemyPrefab: {fileID: 114091293166438620, guid: 2ece2c808be4ede478135da7ff22e8b5,
     type: 2}
   meleeEnemyPrefab: {fileID: 0}
-  rangedEnemyNumber: 1
+  rangedEnemyNumber: 50
   meleeEnemyNumber: 0
   enemiesPerLevel: 100
   spawnCD: 2
+  calibrateSpeedDependence: 1.9
 --- !u!4 &898371789
 Transform:
   m_ObjectHideFlags: 0
@@ -3939,6 +3840,26 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!1 &956022508 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1094686436312310, guid: f8a7c9782c9fe194e9b515321607edc3,
+    type: 2}
+  m_PrefabInternal: {fileID: 1425887989}
+--- !u!114 &956022509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 956022508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbc439ff76a24f748adb42dbb7badf38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseSpeed: 6
+  projectile: {fileID: 114203441303471388, guid: 39d2acb3760314f4491a2bb32b74abf2,
+    type: 2}
+  shooter: {fileID: 1649822768}
 --- !u!1 &972159300
 GameObject:
   m_ObjectHideFlags: 0
@@ -4714,10 +4635,11 @@ MonoBehaviour:
   rangedEnemyPrefab: {fileID: 114091293166438620, guid: 2ece2c808be4ede478135da7ff22e8b5,
     type: 2}
   meleeEnemyPrefab: {fileID: 0}
-  rangedEnemyNumber: 1
+  rangedEnemyNumber: 50
   meleeEnemyNumber: 0
   enemiesPerLevel: 100
   spawnCD: 2
+  calibrateSpeedDependence: 1.9
 --- !u!4 &1365273009
 Transform:
   m_ObjectHideFlags: 0
@@ -4987,80 +4909,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 114984267669149466, guid: f8a7c9782c9fe194e9b515321607edc3,
-        type: 2}
-      propertyPath: soundSource
-      value: 
-      objectReference: {fileID: 136899198}
-    - target: {fileID: 114984267669149466, guid: f8a7c9782c9fe194e9b515321607edc3,
-        type: 2}
-      propertyPath: hitWallSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 64d615d01e6a0c04abdd62f819330e11, type: 3}
-    - target: {fileID: 114984267669149466, guid: f8a7c9782c9fe194e9b515321607edc3,
-        type: 2}
-      propertyPath: hitEnemySound
-      value: 
-      objectReference: {fileID: 8300000, guid: a5078d7893c9032489d5e37c4ef140ba, type: 3}
-    - target: {fileID: 4054135321555652, guid: f8a7c9782c9fe194e9b515321607edc3, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 121.22
-      objectReference: {fileID: 0}
-    - target: {fileID: 114469983667054848, guid: f8a7c9782c9fe194e9b515321607edc3,
-        type: 2}
-      propertyPath: maxHP
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 114469983667054848, guid: f8a7c9782c9fe194e9b515321607edc3,
-        type: 2}
-      propertyPath: HP
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 114469983667054848, guid: f8a7c9782c9fe194e9b515321607edc3,
-        type: 2}
-      propertyPath: damageDelay
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114469983667054848, guid: f8a7c9782c9fe194e9b515321607edc3,
-        type: 2}
-      propertyPath: hitSound
-      value: 
-      objectReference: {fileID: 8300000, guid: c3d23ce53a8613444b19bd7f62706458, type: 3}
-    - target: {fileID: 114469983667054848, guid: f8a7c9782c9fe194e9b515321607edc3,
-        type: 2}
-      propertyPath: soundSource
-      value: 
-      objectReference: {fileID: 136899198}
     m_RemovedComponents:
     - {fileID: 114984267669149466, guid: f8a7c9782c9fe194e9b515321607edc3, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: f8a7c9782c9fe194e9b515321607edc3, type: 2}
   m_IsPrefabAsset: 0
---- !u!1 &1425887990 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1094686436312310, guid: f8a7c9782c9fe194e9b515321607edc3,
-    type: 2}
-  m_PrefabInternal: {fileID: 1425887989}
---- !u!114 &1425887991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1425887990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbc439ff76a24f748adb42dbb7badf38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseSpeed: 6
-  projectile: {fileID: 114203441303471388, guid: 39d2acb3760314f4491a2bb32b74abf2,
-    type: 2}
-  shooter: {fileID: 1425887992}
---- !u!114 &1425887992 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114469983667054848, guid: f8a7c9782c9fe194e9b515321607edc3,
-    type: 2}
-  m_PrefabInternal: {fileID: 1425887989}
-  m_Script: {fileID: 11500000, guid: b421b84281052ab43be16f18ca600934, type: 3}
 --- !u!1 &1461970042
 GameObject:
   m_ObjectHideFlags: 0
@@ -5865,10 +5717,11 @@ MonoBehaviour:
   rangedEnemyPrefab: {fileID: 114091293166438620, guid: 2ece2c808be4ede478135da7ff22e8b5,
     type: 2}
   meleeEnemyPrefab: {fileID: 0}
-  rangedEnemyNumber: 1
+  rangedEnemyNumber: 50
   meleeEnemyNumber: 0
   enemiesPerLevel: 100
   spawnCD: 2
+  calibrateSpeedDependence: 1.9
 --- !u!4 &1582597963
 Transform:
   m_ObjectHideFlags: 0
@@ -6264,6 +6117,12 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1644470398}
   m_CullTransparentMesh: 0
+--- !u!114 &1649822768 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114469983667054848, guid: f8a7c9782c9fe194e9b515321607edc3,
+    type: 2}
+  m_PrefabInternal: {fileID: 1425887989}
+  m_Script: {fileID: 11500000, guid: b421b84281052ab43be16f18ca600934, type: 3}
 --- !u!1 &1751882526
 GameObject:
   m_ObjectHideFlags: 0

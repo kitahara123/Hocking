@@ -10,17 +10,22 @@ public class Spawner : SpeedControl
     [SerializeField] private int meleeEnemyNumber = 15;
     [SerializeField] private int enemiesPerLevel = 40;
     [SerializeField] private float spawnCD = 1;
+    [SerializeField] private float calibrateSpeedDependence = 1.9f;
     private int enemiesKilledOnLevel;
     private bool cooldown;
 
     private int rangedCounter;
     private int meleeCounter;
 
+    private MonoObjectsPool<Creature> rangesPool;
+    private MonoObjectsPool<Creature> meleesPool;
     private List<Creature> enemies;
 
     private void Start()
     {
         enemies = new List<Creature>();
+        rangesPool = new MonoObjectsPool<Creature>(rangedEnemyPrefab);
+        meleesPool = new MonoObjectsPool<Creature>(meleeEnemyPrefab);
 
         StartCoroutine(StartSpawner());
     }
@@ -36,52 +41,59 @@ public class Spawner : SpeedControl
                 Spawn();
             }
 
-            yield return new WaitForSeconds(spawnCD);
+            // Кд должно быть обратно пропорционально скорости
+            var wait = speedModifier == 0
+                ? spawnCD
+                : spawnCD * (calibrateSpeedDependence - Mathf.Log(speedModifier * speedModifier));
+            
+            yield return new WaitForSeconds(wait);
         }
     }
 
     private void Spawn()
     {
         if (speedModifier == 0) return;
+        
         float melees = 1;
         float ranges = 1;
-        if (rangedEnemyNumber > 0) ranges = 0;
-        if (meleeEnemyNumber > 0) melees = 0;
-        if (meleeCounter > 0 && meleeEnemyNumber > 0)
+        
+        if (meleeEnemyNumber > 0)
         {
-            melees = meleeCounter / meleeEnemyNumber;
+            melees = (float) meleeCounter / meleeEnemyNumber;
         }
 
-        if (rangedCounter > 0 && rangedEnemyNumber > 0)
+        if (rangedEnemyNumber > 0)
         {
-            ranges = rangedCounter / rangedEnemyNumber;
+            ranges = (float) rangedCounter / rangedEnemyNumber;
         }
-
 
         Creature newEnemy;
         if (melees < ranges)
         {
-            newEnemy = Instantiate(meleeEnemyPrefab);
+            newEnemy = meleesPool.CreateInstance();
             meleeCounter++;
             newEnemy.OnDeath += (c) =>
             {
                 meleeCounter--;
                 enemies.Remove(c);
+                meleesPool.RemoveInstance(c);
                 enemiesKilledOnLevel++;
             };
         }
         else
         {
-            newEnemy = Instantiate(rangedEnemyPrefab);
+            newEnemy = rangesPool.CreateInstance();
             rangedCounter++;
             newEnemy.OnDeath += (c) =>
             {
                 rangedCounter--;
                 enemies.Remove(c);
+                rangesPool.RemoveInstance(c);
                 enemiesKilledOnLevel++;
             };
         }
 
+        newEnemy.Reset();
         enemies.Add(newEnemy);
         newEnemy.transform.position = transform.position;
     }

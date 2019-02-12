@@ -4,8 +4,9 @@ using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 [AddComponentMenu("Control Script/FPS Input")]
-public class FPSMovement : SpeedControl
+public class FPSMovement : MonoBehaviour
 {
+    [SerializeField] private float speed = 6f;
     [SerializeField] private float gravity = -9.8f;
     
     private CharacterController characterController;

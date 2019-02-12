@@ -2,29 +2,17 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Creature), typeof(WanderingAI))]
-public class AggressiveAI : SpeedControl
+public class AggressiveAI : AttackAI
 {
     [SerializeField] private float meleeRange = 1;
-    [SerializeField] private float attackPerSecond = 1.5f;
     [SerializeField] private int damage = 20;
-    private Creature creature;
     private WanderingAI wanderingAi;
-    private bool cooldown;
     private bool aggro;
     private Transform player;
 
-    private void Start()
-    {
-        creature = GetComponent<Creature>();
-        wanderingAi = GetComponent<WanderingAI>();
-    }
+    private void Start() => wanderingAi = GetComponent<WanderingAI>();
 
-    protected override void OnDestroy()
-    {
-        base.OnDestroy();
-        creature = GetComponent<Creature>();
-    }
-
+    // При попадании в радиус агро направляется к игроку и атакует
     private void Update()
     {
         if (!creature.Alive) return;
@@ -64,7 +52,7 @@ public class AggressiveAI : SpeedControl
     {
         cooldown = true;
         player.gameObject.GetComponent<PlayerCharacter>().Hurt(damage);
-        yield return new WaitForSeconds(attackPerSecond);
+        yield return new WaitForSeconds(attackCD);
         cooldown = false;
     }
 

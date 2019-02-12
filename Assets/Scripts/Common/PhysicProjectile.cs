@@ -4,12 +4,12 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PhysicProjectile : Projectile
 {
-    private Rigidbody rigidbody;
-    protected override void Start()
+    private Rigidbody rb;
+
+    private void Start()
     {
-        base.Start();
-        rigidbody = GetComponent<Rigidbody>();
-        rigidbody.AddForce(transform.forward * baseSpeed);
+        rb = GetComponent<Rigidbody>();
+        rb.AddForce(transform.forward * baseSpeed);
     }
 
     protected override void Update()
