@@ -7,7 +7,7 @@ public class AttackAI : MonoBehaviour
     protected bool cooldown;
     protected bool alive;
 
-    private Creature creature;
+    protected Creature creature;
     protected virtual void Awake()
     {
         creature = GetComponent<Creature>();

@@ -5,7 +5,7 @@ public class PhysicShooter : SpeedControl
 {
     private new Camera camera;
     [SerializeField] private Projectile projectile;
-    [SerializeField] private string friendlyFire = "Player";
+    [SerializeField] private Creature shooter;
 
     private void Start()
     {
@@ -27,7 +27,7 @@ public class PhysicShooter : SpeedControl
         {
             var go = Instantiate(projectile);
 
-            go.FriendlyFire = friendlyFire;
+            go.Shooter = shooter;
             go.transform.rotation = Quaternion.LookRotation(transform.forward);
             go.transform.position = transform.TransformPoint(Vector3.forward * 1);
         }

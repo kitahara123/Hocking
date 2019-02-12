@@ -5,7 +5,7 @@ using UnityEngine;
 public class Projectile : SpeedControl
 {
     [SerializeField] private int damage = 1;
-    public string FriendlyFire { private get; set; }
+    public Creature Shooter { get; set; }
 
     protected virtual void Start()
     {
@@ -26,7 +26,7 @@ public class Projectile : SpeedControl
             return;
         }
 
-        if (other.CompareTag(FriendlyFire) || other is SphereCollider) return;
+        if (other.CompareTag(Shooter.tag) || other is SphereCollider) return;
         creature.Hurt(damage);
         Destroy(gameObject);
     }

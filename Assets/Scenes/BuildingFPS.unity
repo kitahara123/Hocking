@@ -3819,10 +3819,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseSpeed: 6
-  rangedEnemyPrefab: {fileID: 114091293166438620, guid: a501c2a9463dc634ba863c8c9001df04,
+  rangedEnemyPrefab: {fileID: 114091293166438620, guid: 2ece2c808be4ede478135da7ff22e8b5,
     type: 2}
   meleeEnemyPrefab: {fileID: 0}
-  rangedEnemyNumber: 50
+  rangedEnemyNumber: 1
   meleeEnemyNumber: 0
   enemiesPerLevel: 100
   spawnCD: 2
@@ -4711,10 +4711,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseSpeed: 6
-  rangedEnemyPrefab: {fileID: 114091293166438620, guid: a501c2a9463dc634ba863c8c9001df04,
+  rangedEnemyPrefab: {fileID: 114091293166438620, guid: 2ece2c808be4ede478135da7ff22e8b5,
     type: 2}
   meleeEnemyPrefab: {fileID: 0}
-  rangedEnemyNumber: 50
+  rangedEnemyNumber: 1
   meleeEnemyNumber: 0
   enemiesPerLevel: 100
   spawnCD: 2
@@ -5052,10 +5052,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseSpeed: 6
-  soundSource: {fileID: 136899198}
-  hitWallSound: {fileID: 8300000, guid: 64d615d01e6a0c04abdd62f819330e11, type: 3}
   projectile: {fileID: 114203441303471388, guid: 39d2acb3760314f4491a2bb32b74abf2,
     type: 2}
+  shooter: {fileID: 1425887992}
+--- !u!114 &1425887992 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114469983667054848, guid: f8a7c9782c9fe194e9b515321607edc3,
+    type: 2}
+  m_PrefabInternal: {fileID: 1425887989}
+  m_Script: {fileID: 11500000, guid: b421b84281052ab43be16f18ca600934, type: 3}
 --- !u!1 &1461970042
 GameObject:
   m_ObjectHideFlags: 0
@@ -5857,10 +5862,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseSpeed: 6
-  rangedEnemyPrefab: {fileID: 114091293166438620, guid: a501c2a9463dc634ba863c8c9001df04,
+  rangedEnemyPrefab: {fileID: 114091293166438620, guid: 2ece2c808be4ede478135da7ff22e8b5,
     type: 2}
   meleeEnemyPrefab: {fileID: 0}
-  rangedEnemyNumber: 50
+  rangedEnemyNumber: 1
   meleeEnemyNumber: 0
   enemiesPerLevel: 100
   spawnCD: 2

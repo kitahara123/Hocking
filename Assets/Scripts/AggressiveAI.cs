@@ -2,12 +2,11 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Creature), typeof(WanderingAI))]
-public class AgressiveAI : SpeedControl
+public class AggressiveAI : SpeedControl
 {
     [SerializeField] private float meleeRange = 1;
     [SerializeField] private float attackPerSecond = 1.5f;
     [SerializeField] private int damage = 20;
-    private bool alive;
     private Creature creature;
     private WanderingAI wanderingAi;
     private bool cooldown;
@@ -18,21 +17,17 @@ public class AgressiveAI : SpeedControl
     {
         creature = GetComponent<Creature>();
         wanderingAi = GetComponent<WanderingAI>();
-        alive = creature.Alive;
-        creature.OnDeath += Die;
     }
 
     protected override void OnDestroy()
     {
         base.OnDestroy();
         creature = GetComponent<Creature>();
-        creature.OnDeath -= Die;
-        
     }
 
     private void Update()
     {
-        if (!alive) return;
+        if (!creature.Alive) return;
         if (!aggro) return;
         
         var distance = Vector3.Distance(player.position, transform.position);
@@ -50,7 +45,7 @@ public class AgressiveAI : SpeedControl
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!alive || !other.CompareTag("Player")) return;
+        if (!creature.Alive || !other.CompareTag("Player")) return;
 
         wanderingAi.enabled = false;
         aggro = true;
@@ -60,7 +55,7 @@ public class AgressiveAI : SpeedControl
 
     private void OnTriggerExit(Collider other)
     {
-        if (!alive || !other.CompareTag("Player")) return;
+        if (!creature.Alive || !other.CompareTag("Player")) return;
         wanderingAi.enabled = true;
         aggro = false;
     }
@@ -73,5 +68,4 @@ public class AgressiveAI : SpeedControl
         cooldown = false;
     }
 
-    private void Die(Creature creature) => alive = false;
 }

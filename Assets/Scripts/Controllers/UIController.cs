@@ -36,7 +36,6 @@ namespace Controllers
         {
             if (!Managers.Managers.Settings.Isometric)
             {
-                Debug.Log("isometric = "+ false);
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
             }

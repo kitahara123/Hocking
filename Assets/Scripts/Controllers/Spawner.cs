@@ -31,8 +31,10 @@ public class Spawner : SpeedControl
 
         while (enemiesPerLevel > enemiesKilledOnLevel)
         {
-            if (meleeCounter < meleeEnemyNumber || rangedCounter < rangedEnemyNumber || speedModifier != 0)
+            if (meleeCounter < meleeEnemyNumber || rangedCounter < rangedEnemyNumber)
+            {
                 Spawn();
+            }
 
             yield return new WaitForSeconds(spawnCD);
         }
@@ -40,6 +42,7 @@ public class Spawner : SpeedControl
 
     private void Spawn()
     {
+        if (speedModifier == 0) return;
         float melees = 1;
         float ranges = 1;
         if (rangedEnemyNumber > 0) ranges = 0;
