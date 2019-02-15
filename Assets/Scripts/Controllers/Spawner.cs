@@ -19,11 +19,11 @@ public class Spawner : SpeedControl
 
     private MonoObjectsPool<Creature> rangesPool;
     private MonoObjectsPool<Creature> meleesPool;
-    private List<Creature> enemies;
+    private HashSet<Creature> enemies;
 
     private void Start()
     {
-        enemies = new List<Creature>();
+        enemies = new HashSet<Creature>();
         rangesPool = new MonoObjectsPool<Creature>(rangedEnemyPrefab);
         meleesPool = new MonoObjectsPool<Creature>(meleeEnemyPrefab);
 
@@ -45,18 +45,19 @@ public class Spawner : SpeedControl
             var wait = speedModifier == 0
                 ? spawnCD
                 : spawnCD * (calibrateSpeedDependence - Mathf.Log(speedModifier * speedModifier));
-            
+
             yield return new WaitForSeconds(wait);
         }
     }
 
+    // Спавнит тех тот тип противников которых меньше
     private void Spawn()
     {
         if (speedModifier == 0) return;
-        
+
         float melees = 1;
         float ranges = 1;
-        
+
         if (meleeEnemyNumber > 0)
         {
             melees = (float) meleeCounter / meleeEnemyNumber;
@@ -72,25 +73,29 @@ public class Spawner : SpeedControl
         {
             newEnemy = meleesPool.CreateInstance();
             meleeCounter++;
-            newEnemy.OnDeath += (c) =>
-            {
-                meleeCounter--;
-                enemies.Remove(c);
-                meleesPool.RemoveInstance(c);
-                enemiesKilledOnLevel++;
-            };
+            
+            if (!enemies.Contains(newEnemy))
+                newEnemy.OnDeath += (c) =>
+                {
+                    meleeCounter--;
+                    meleesPool.RemoveInstance(c);
+                    enemiesKilledOnLevel++;
+                    Messenger.Broadcast(GameEvent.SCORE_EARNED);
+                };
         }
         else
         {
             newEnemy = rangesPool.CreateInstance();
             rangedCounter++;
-            newEnemy.OnDeath += (c) =>
-            {
-                rangedCounter--;
-                enemies.Remove(c);
-                rangesPool.RemoveInstance(c);
-                enemiesKilledOnLevel++;
-            };
+            
+            if (!enemies.Contains(newEnemy))
+                newEnemy.OnDeath += (c) =>
+                {
+                    rangedCounter--;
+                    rangesPool.RemoveInstance(c);
+                    enemiesKilledOnLevel++;
+                    Messenger.Broadcast(GameEvent.SCORE_EARNED);
+                };
         }
 
         newEnemy.Reset();

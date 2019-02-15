@@ -1,4 +1,5 @@
 using System.Collections;
+using Managers;
 using TMPro;
 using UnityEngine;
 
@@ -106,6 +107,7 @@ namespace Controllers
         {
             levelEnding.gameObject.SetActive(true);
             levelEnding.text = levelCompleteMessage;
+            Messenger<float>.Broadcast(GameEvent.SPEED_CHANGED, 0);
             yield return new WaitForSeconds(2);
 
             Managers.Managers.Mission.GoToNext();
@@ -117,6 +119,8 @@ namespace Controllers
         {
             levelEnding.gameObject.SetActive(true);
             levelEnding.text = levelFailedMessage;
+            Messenger<float>.Broadcast(GameEvent.SPEED_CHANGED, 0);
+            Debug.Log("speed " +Managers.Managers.Settings.GlobalSpeed);
             yield return new WaitForSeconds(2);
 
             Managers.Managers.Mission.RestartCurrent();
@@ -126,6 +130,7 @@ namespace Controllers
         {
             levelEnding.gameObject.SetActive(true);
             levelEnding.text = gameCompleteMessage;
+            Messenger<float>.Broadcast(GameEvent.SPEED_CHANGED, 0);
         }
 
         public void RestartGame()

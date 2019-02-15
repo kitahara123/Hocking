@@ -40,13 +40,16 @@ namespace Managers
         {
             Debug.Log("Scene loaded: " + scene.name);
             SceneLoaded = true;
-            
+
+            if (scene.name != MANAGERS_SCENE)
+                Messenger<float>.Broadcast(GameEvent.SPEED_CHANGED, PlayerPrefs.GetFloat("Speed", 1));
+
             SceneManager.SetActiveScene(scene);
         }
 
         public void GoToNext()
         {
-            if (curLevel < levelSequence.Length -1)
+            if (curLevel < levelSequence.Length - 1)
             {
                 LoadScreen.gameObject.SetActive(true);
 
@@ -67,13 +70,13 @@ namespace Managers
         private IEnumerator LoadScene(string sceneName)
         {
             SceneLoaded = false;
-            
+
             if (prevScene != MANAGERS_SCENE && prevScene != null && SceneManager.GetSceneByName(prevScene).isLoaded)
             {
                 Debug.Log($"Unload: {prevScene} scene");
                 SceneManager.UnloadSceneAsync(prevScene);
             }
-            
+
             var load = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
             Debug.Log("Loading: " + sceneName);

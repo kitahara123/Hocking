@@ -43,8 +43,8 @@ public class Creature : MonoBehaviour
 
         soundSource.PlayOneShot(hitSound);
         ChangeHealth(-damage);
-        if (Alive)
-            StartCoroutine(ReactToHit());
+        
+        if (Alive) StartCoroutine(ReactToHit());
     }
 
     private IEnumerator ReactToHit()
@@ -63,13 +63,6 @@ public class Creature : MonoBehaviour
         transform.Rotate(-75, 0, 0);
         yield return new WaitForSeconds(1.5f);
 
-        if (CompareTag("Enemy"))
-        {
-            Messenger.Broadcast(GameEvent.SCORE_EARNED);
-        }
-        
-        if (CompareTag("Player")) Messenger.Broadcast(GameEvent.LEVEL_FAILED);
-        
         OnDeath?.Invoke(this);
     }
 
