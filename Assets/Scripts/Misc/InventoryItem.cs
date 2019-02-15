@@ -1,5 +1,8 @@
 using System;
 
+/// <summary>
+/// Сериализуемый класс для сохранения данных инвентаря
+/// </summary>
 [Serializable]
 public class InventoryItem
 {

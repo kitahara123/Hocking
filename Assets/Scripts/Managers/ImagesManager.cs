@@ -4,6 +4,9 @@ using Random = UnityEngine.Random;
 
 namespace Managers
 {
+    /// <summary>
+    /// Менеджер загрузки картинок из интернета (например рекламы)
+    /// </summary>
     public class ImagesManager : MonoBehaviour, IGameManager
     {
         public ManagerStatus status { get; private set; }

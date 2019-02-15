@@ -1,9 +1,13 @@
 using UnityEngine;
 
+/// <summary>
+/// Меняет скайбокс с песмурного на чистый и обратно
+/// </summary>
 public class WeatherController : MonoBehaviour
 {
     [SerializeField] private Material sky;
     [SerializeField] private Light sun;
+    [SerializeField] private float blendingSpeed = .0005f;
 
     private float fullIntensity;
     private float cloudValue = 0f;
@@ -19,7 +23,7 @@ public class WeatherController : MonoBehaviour
         SetOvercast(cloudValue);
         if (cloudValue <= 1f && _switch)
         {
-            cloudValue += .0005f;
+            cloudValue += blendingSpeed;
         }
         else if (cloudValue <= 0f)
         {
@@ -27,7 +31,7 @@ public class WeatherController : MonoBehaviour
         }
         else
         {
-            cloudValue -= .0005f;
+            cloudValue -= blendingSpeed;
             _switch = false;
         }
     }

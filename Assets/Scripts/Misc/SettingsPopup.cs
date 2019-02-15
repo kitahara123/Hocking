@@ -2,6 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Визуальное отображение настроек
+/// </summary>
 public class SettingsPopup : MonoBehaviour
 {
     [SerializeField] private Slider speedSlider;

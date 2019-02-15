@@ -4,10 +4,14 @@ using UnityEngine;
 
 namespace Controllers
 {
+    /// <summary>
+    /// Класс с настройками юнита для спавнера 
+    /// </summary>
     [Serializable]
     public class SpawnableObject
     {
         [SerializeField] private Creature prefab;
+        [Tooltip("Максимальное количество на сцене")]
         [SerializeField] private int quantity;
         public int Quantity => quantity;
 

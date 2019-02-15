@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace Managers
 {
+    /// <summary>
+    /// Менеджер управления настройками игры
+    /// </summary>
     public class SettingsManager : MonoBehaviour, IGameManager
     {
         [SerializeField] private bool isometric;

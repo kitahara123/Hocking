@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Managers
 {
+    /// <summary>
+    /// Менеджер для связи с интерентом
+    /// </summary>
     public class NetworkService
     {
         private Dictionary<string, Texture2D> cache;

@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Controllers
 {
+    /// <summary>
+    /// Класс контролирующий интерфейс
+    /// </summary>
     public class UIController : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI scoreLabel;
@@ -26,7 +29,7 @@ namespace Controllers
 
         public void Awake()
         {
-            Messenger.AddListener(GameEvent.SCORE_EARNED, OnEnemyHit);
+            Messenger.AddListener(GameEvent.SCORE_EARNED, OnEnemyDead);
             Messenger<int, int>.AddListener(GameEvent.HEALTH_UPDATED, OnHealthUpdated);
             Messenger.AddListener(GameEvent.LEVEL_COMPLETED, OnLevelComplete);
             Messenger.AddListener(GameEvent.LEVEL_FAILED, OnLevelFailed);
@@ -35,19 +38,13 @@ namespace Controllers
 
         private void Start()
         {
-            if (!Managers.Managers.Settings.Isometric)
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-            }
-
             RefreshUI();
             OnScoreChanged(0);
         }
 
         private void OnDestroy()
         {
-            Messenger.RemoveListener(GameEvent.SCORE_EARNED, OnEnemyHit);
+            Messenger.RemoveListener(GameEvent.SCORE_EARNED, OnEnemyDead);
             Messenger<int, int>.RemoveListener(GameEvent.HEALTH_UPDATED, OnHealthUpdated);
             Messenger.RemoveListener(GameEvent.LEVEL_COMPLETED, OnLevelComplete);
             Messenger.RemoveListener(GameEvent.LEVEL_FAILED, OnLevelFailed);
@@ -65,7 +62,7 @@ namespace Controllers
             if (inventoryPopup == null) inventoryOn = false;
         }
 
-        private void OnEnemyHit() => OnScoreChanged(scoreDelta);
+        private void OnEnemyDead() => OnScoreChanged(scoreDelta);
 
         private void OnScoreChanged(int value)
         {
@@ -120,7 +117,6 @@ namespace Controllers
             levelEnding.gameObject.SetActive(true);
             levelEnding.text = levelFailedMessage;
             Messenger<float>.Broadcast(GameEvent.SPEED_CHANGED, 0);
-            Debug.Log("speed " +Managers.Managers.Settings.GlobalSpeed);
             yield return new WaitForSeconds(2);
 
             Managers.Managers.Mission.RestartCurrent();

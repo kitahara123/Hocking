@@ -2,9 +2,13 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// Атака по нажатию правой кнопки мыши с разворотом в сторону клика
+/// </summary>
 public class PointClickAttack : SpeedControl
 {
     [SerializeField] private GameObject attackPref;
+    [SerializeField] private float destroyDelay = 1f;
     private float modelYOffset;
     private bool isometric;
 
@@ -32,6 +36,7 @@ public class PointClickAttack : SpeedControl
         }
     }
 
+    // Пропускаем один кадр чтобы в RelativeMovement успела обновиться переменная targetPos
     private IEnumerator Attack()
     {
         yield return null;
@@ -42,6 +47,6 @@ public class PointClickAttack : SpeedControl
             
         go.transform.rotation = Quaternion.LookRotation(RelativeMovement.targetPos - go.transform.position) *
                                 go.transform.rotation;
-        Destroy(go, 1);
+        Destroy(go, destroyDelay);
     }
 }

@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 
 namespace Managers
 {
+    /// <summary>
+    /// Менеджер сохранения и загрузки игровых данных
+    /// </summary>
     public class DataManager : MonoBehaviour, IGameManager
     {
         [SerializeField] private string fileName = "game.dat";

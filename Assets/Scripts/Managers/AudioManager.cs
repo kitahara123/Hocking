@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Managers
 {
+    /// <summary>
+    /// Менеджер управления звуком
+    /// </summary>
     public class AudioManager : MonoBehaviour, IGameManager
     {
         [SerializeField] private AudioSource audioSource;

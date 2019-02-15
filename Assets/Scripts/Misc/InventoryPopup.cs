@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/// <summary>
+/// Визуальное отображеие инвентаря
+/// </summary>
 public class InventoryPopup : MonoBehaviour
 {
     [SerializeField] private Image[] itemIcons;

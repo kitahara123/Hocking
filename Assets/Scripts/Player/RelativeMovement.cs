@@ -2,6 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// Управление передвижением персонажа (одновременно и для WASD и клика мышкой)
+/// </summary>
 [RequireComponent(typeof(CharacterController))]
 public class RelativeMovement : MonoBehaviour
 {

@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// По нажатию кнопки отпалвляет обэекту сообщение "Operate"
+/// </summary>
 public class DeviceOperator : MonoBehaviour
 {
     [SerializeField] private float radius = 1.5f;

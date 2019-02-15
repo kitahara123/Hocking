@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Managers
 {
+    /// <summary>
+    /// Класс инициализирующий все менеджеры игры
+    /// </summary>
     [RequireComponent(typeof(PlayerManager), typeof(ImagesManager))]
     [RequireComponent(typeof(AudioManager), typeof(SettingsManager), typeof(MissionManager))]
     [RequireComponent(typeof(DataManager))]

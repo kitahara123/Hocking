@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// Стреляет снарядами от первого лица
+/// </summary>
 public class FPShooter : SpeedControl
 {
     private new Camera camera;

@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Базовый класс для всех девайсов
+/// </summary>
 public class BaseDevice : SpeedControl
 {
         [SerializeField] private bool requireKey;

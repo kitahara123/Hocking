@@ -45,7 +45,8 @@ public class AggressiveAI : AttackAI
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player")) return;
+        if (!other.CompareTag("Player")) return;
+        
         wanderingAi.enabled = true;
         aggro = false;
     }

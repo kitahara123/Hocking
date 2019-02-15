@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Управление камерой от первого лица
+/// </summary>
 public class MouseLook : MonoBehaviour
 {
     private enum RotationAxes
@@ -35,7 +38,6 @@ public class MouseLook : MonoBehaviour
             case RotationAxes.MouseY:
             {
                 rotationX -= Input.GetAxis("Mouse Y") * sensVert;
-
                 rotationX = Mathf.Clamp(rotationX, minVert, maxVert);
 
                 float rotationY = transform.localEulerAngles.y;
@@ -46,7 +48,6 @@ public class MouseLook : MonoBehaviour
             default:
             {
                 rotationX -= Input.GetAxis("Mouse Y") * sensVert;
-
                 rotationX = Mathf.Clamp(rotationX, minVert, maxVert);
 
                 float delta = Input.GetAxis("Mouse X") * sensHor;

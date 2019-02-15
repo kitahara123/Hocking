@@ -1,6 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// Девайс открывающий дверь
+/// </summary>
 public class DoorOpenDevice : BaseDevice
 {
     [SerializeField] private Vector3 deltaPos;

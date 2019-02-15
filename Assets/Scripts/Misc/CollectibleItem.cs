@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Представляет собой айтемы в сцене
+/// </summary>
 public class CollectibleItem : MonoBehaviour
 {
     [SerializeField] private string itemName;

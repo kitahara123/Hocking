@@ -5,17 +5,19 @@ using UnityEngine.SceneManagement;
 
 namespace Managers
 {
+    /// <summary>
+    /// Менеджер управляющий загрузкой сцен
+    /// </summary>
     public class MissionManager : MonoBehaviour, IGameManager
     {
         [SerializeField] private string[] levelSequence;
         [SerializeField] private LoadScreenController LoadScreen;
-
         private const string MANAGERS_SCENE = "Managers";
+
         public ManagerStatus status { get; private set; }
 
         public int curLevel { get; private set; }
         public string prevScene { get; private set; }
-
         public bool SceneLoaded { get; private set; }
 
         public void Startup(NetworkService service)
@@ -29,10 +31,7 @@ namespace Managers
             status = ManagerStatus.Started;
         }
 
-        public void UpdateData(int curLevel)
-        {
-            this.curLevel = curLevel;
-        }
+        public void UpdateData(int curLevel) => this.curLevel = curLevel;
 
         public void ObjectiveReached() => Messenger.Broadcast(GameEvent.LEVEL_COMPLETED);
 

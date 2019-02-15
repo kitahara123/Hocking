@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Пул для оптимизации создания объектов 
+/// </summary>
 public class MonoObjectsPool<T> where T : MonoBehaviour
 {
     public List<T> EnabledList { get; }

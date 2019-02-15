@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Камера вращающаяся вокруг персонажа
+/// </summary>
 public class OrbitCamera : MonoBehaviour
 {
     [SerializeField] private Transform target;
@@ -52,14 +55,15 @@ public class OrbitCamera : MonoBehaviour
         rotX = Mathf.Clamp(rotX, minVertAngles, maxVertAngles);
 
         var rotation = Quaternion.Euler(rotX, rotY, 0);
-        transform.position = target.position -
-                             (rotation * (offset * (isometric
-                                              ? isometricDistance
-                                              : cameraDistance)
-                              ));
+        transform.position = target.position - (rotation * (offset * (isometric
+                                                                ? isometricDistance
+                                                                : cameraDistance)
+                                                ));
         transform.LookAt(target);
     }
 
+
+    // Делает прозрачными объекты перед камерой
     private void OnTriggerEnter(Collider other)
     {
         if (!isometric ||
@@ -99,10 +103,7 @@ public class OrbitCamera : MonoBehaviour
         tmpDatas.Remove(other);
     }
 
-    public void LockUnlock(bool value)
-    {
-        Locked = value;
-    }
+    public void LockUnlock(bool value) => Locked = value;
 
     private class TmpData
     {

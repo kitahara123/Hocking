@@ -4,6 +4,9 @@ using UnityEngine.Serialization;
 
 namespace Managers
 {
+    /// <summary>
+    /// Менеджер игрока
+    /// </summary>
     public class PlayerManager : MonoBehaviour, IGameManager
     {
         public PlayerCharacter Player { get;  set; }

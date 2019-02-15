@@ -18,6 +18,9 @@ public class Spawner : SpeedControl
 
     private void Start() => StartCoroutine(StartSpawner());
 
+    /// <summary>
+    /// Спавнит тот префаб экземпляров которого меньше всего на сцене
+    /// </summary>
     private IEnumerator StartSpawner()
     {
         if (prefList.Length == 0) yield break;

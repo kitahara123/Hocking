@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Девайс по нажатию случайно меняющий цвет
+/// </summary>
 public class ColorChangeDevice : BaseDevice
 {
         public override void Operate()
