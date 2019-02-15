@@ -1,6 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// При попадании снаряда игрока, разворачивается в его сторону и начинает стрейфиться из стороны в сторону
+/// </summary>
 [RequireComponent(typeof(Creature), typeof(WanderingAI))]
 public class AggressiveRangedAI : SpeedControl
 {
@@ -15,7 +18,6 @@ public class AggressiveRangedAI : SpeedControl
         wanderingAi = GetComponent<WanderingAI>();
     }
 
-    // При попадании снаряда игрока, разворачивается в его сторону и начинает стрейфиться из стороны в сторону
     private void OnTriggerEnter(Collider other)
     {
         if (!creature.Alive) return;

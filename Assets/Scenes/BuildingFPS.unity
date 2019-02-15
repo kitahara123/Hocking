@@ -3719,11 +3719,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseSpeed: 6
-  rangedEnemyPrefab: {fileID: 114091293166438620, guid: 2ece2c808be4ede478135da7ff22e8b5,
-    type: 2}
-  meleeEnemyPrefab: {fileID: 0}
-  rangedEnemyNumber: 50
-  meleeEnemyNumber: 0
+  prefList:
+  - prefab: {fileID: 114091293166438620, guid: 2ece2c808be4ede478135da7ff22e8b5, type: 2}
+    quantity: 50
   enemiesPerLevel: 100
   spawnCD: 2
   calibrateSpeedDependence: 1.9
@@ -4632,11 +4630,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseSpeed: 6
-  rangedEnemyPrefab: {fileID: 114091293166438620, guid: 2ece2c808be4ede478135da7ff22e8b5,
-    type: 2}
-  meleeEnemyPrefab: {fileID: 0}
-  rangedEnemyNumber: 50
-  meleeEnemyNumber: 0
+  prefList:
+  - prefab: {fileID: 114091293166438620, guid: 2ece2c808be4ede478135da7ff22e8b5, type: 2}
+    quantity: 50
   enemiesPerLevel: 100
   spawnCD: 2
   calibrateSpeedDependence: 1.9
@@ -5714,11 +5710,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseSpeed: 6
-  rangedEnemyPrefab: {fileID: 114091293166438620, guid: 2ece2c808be4ede478135da7ff22e8b5,
-    type: 2}
-  meleeEnemyPrefab: {fileID: 0}
-  rangedEnemyNumber: 50
-  meleeEnemyNumber: 0
+  prefList:
+  - prefab: {fileID: 114091293166438620, guid: 2ece2c808be4ede478135da7ff22e8b5, type: 2}
+    quantity: 50
   enemiesPerLevel: 100
   spawnCD: 2
   calibrateSpeedDependence: 1.9

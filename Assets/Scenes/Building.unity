@@ -9670,14 +9670,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseSpeed: 6
-  rangedEnemyPrefab: {fileID: 114091293166438620, guid: a501c2a9463dc634ba863c8c9001df04,
-    type: 2}
-  meleeEnemyPrefab: {fileID: 114091293166438620, guid: 357867ab9def1be459ea13a37d391b98,
-    type: 2}
-  rangedEnemyNumber: 5
-  meleeEnemyNumber: 15
+  prefList:
+  - prefab: {fileID: 114091293166438620, guid: a501c2a9463dc634ba863c8c9001df04, type: 2}
+    quantity: 5
+  - prefab: {fileID: 114091293166438620, guid: 357867ab9def1be459ea13a37d391b98, type: 2}
+    quantity: 15
   enemiesPerLevel: 40
   spawnCD: 1
+  calibrateSpeedDependence: 1.9
 --- !u!4 &1582597963
 Transform:
   m_ObjectHideFlags: 0

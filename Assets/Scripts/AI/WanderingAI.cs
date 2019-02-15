@@ -11,7 +11,9 @@ public class WanderingAI : SpeedControl
         creature = GetComponent<Creature>();
     }
 
-    // Разворачивается и идёт в рандомную сторону если впереди препятствие 
+    /// <summary>
+    /// Разворачивается и идёт в рандомную сторону если впереди препятствие 
+    /// </summary>
     private void Update()
     {
         if (!creature.Alive) return;

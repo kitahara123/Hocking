@@ -1,7 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
-
+/// <summary>
+/// Просто стреляет снарядами по кд
+/// </summary>
 public class RangedAttackAI : AttackAI
 {
     [SerializeField] private Projectile projectilePrefab;
@@ -15,7 +17,6 @@ public class RangedAttackAI : AttackAI
         projPool = new MonoObjectsPool<Projectile>(projectilePrefab);
     }
 
-    // Просто стреляет снарядами по кд
     private void Update()
     {
         if (creature.Alive && !cooldown && speedModifier > 0) StartCoroutine(Attack());

@@ -2,6 +2,9 @@
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// Базовый класс живого существа
+/// </summary>
 public class Creature : MonoBehaviour
 {
     [SerializeField] public int maxHP;

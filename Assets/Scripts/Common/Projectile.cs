@@ -1,6 +1,9 @@
 ﻿using System;
 using UnityEngine;
 
+/// <summary>
+/// Базовый класс снарядов
+/// </summary>
 public class Projectile : SpeedControl
 {
     [SerializeField] private int damage = 1;
@@ -12,6 +15,10 @@ public class Projectile : SpeedControl
         transform.Translate(0, 0, speed * Time.deltaTime);
     }
 
+    /// <summary>
+    /// При попадании не по стрелявшему наносит урон, стрелявший задаётся в классе породившем this
+    /// </summary>
+    /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
     {
         if (other.isTrigger) return;

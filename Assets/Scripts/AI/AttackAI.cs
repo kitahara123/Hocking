@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Базовый класс атаки
+/// </summary>
 [RequireComponent(typeof(Creature))]
 public class AttackAI : SpeedControl
 {
@@ -25,6 +28,7 @@ public class AttackAI : SpeedControl
     {
         base.OnSpeedChanged(value);
         if (speedModifier != 0)
+            // Кд должно быть обратно пропорционально скорости
             attackCD = baseAttackCD * (calibrateSpeedDependence - Mathf.Log(speedModifier * speedModifier));
     }
 }

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+///  Отталкивается от стен, при прикосновении к персонажу убивает его
+/// </summary>
 public class BackAndForth : SpeedControl
 {
     [SerializeField] private int damage = 100;
@@ -12,7 +15,6 @@ public class BackAndForth : SpeedControl
         transform.Translate(0, 0, direction * speed * Time.deltaTime);
     }
 
-    //     Отталкивается от стен, при прикосновении к персонажу убивает его
     private void OnTriggerEnter(Collider other)
     {
         var player = other.GetComponent<Creature>();

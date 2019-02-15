@@ -1,6 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// При попадании в радиус агро направляется к игроку и атакует
+/// </summary>
 [RequireComponent(typeof(Creature), typeof(WanderingAI))]
 public class AggressiveAI : AttackAI
 {
@@ -12,7 +15,6 @@ public class AggressiveAI : AttackAI
 
     private void Start() => wanderingAi = GetComponent<WanderingAI>();
 
-    // При попадании в радиус агро направляется к игроку и атакует
     private void Update()
     {
         if (!creature.Alive) return;
@@ -43,7 +45,7 @@ public class AggressiveAI : AttackAI
 
     private void OnTriggerExit(Collider other)
     {
-        if (!creature.Alive || !other.CompareTag("Player")) return;
+        if (other.CompareTag("Player")) return;
         wanderingAi.enabled = true;
         aggro = false;
     }

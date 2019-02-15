@@ -1,105 +1,70 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Controllers;
 using UnityEngine;
 
+/// <summary>
+/// Спавнит заданные префабы
+/// </summary>
 public class Spawner : SpeedControl
 {
-    [SerializeField] private Creature rangedEnemyPrefab;
-    [SerializeField] private Creature meleeEnemyPrefab;
-    [SerializeField] private int rangedEnemyNumber = 5;
-    [SerializeField] private int meleeEnemyNumber = 15;
+    [SerializeField] private SpawnableObject[] prefList;
     [SerializeField] private int enemiesPerLevel = 40;
     [SerializeField] private float spawnCD = 1;
     [SerializeField] private float calibrateSpeedDependence = 1.9f;
     private int enemiesKilledOnLevel;
     private bool cooldown;
 
-    private int rangedCounter;
-    private int meleeCounter;
-
-    private MonoObjectsPool<Creature> rangesPool;
-    private MonoObjectsPool<Creature> meleesPool;
-    private HashSet<Creature> enemies;
-
-    private void Start()
-    {
-        enemies = new HashSet<Creature>();
-        rangesPool = new MonoObjectsPool<Creature>(rangedEnemyPrefab);
-        meleesPool = new MonoObjectsPool<Creature>(meleeEnemyPrefab);
-
-        StartCoroutine(StartSpawner());
-    }
+    private void Start() => StartCoroutine(StartSpawner());
 
     private IEnumerator StartSpawner()
     {
-        if (rangedEnemyNumber == 0 && meleeEnemyNumber == 0) yield break;
+        if (prefList.Length == 0) yield break;
+        if (prefList.Count(e => e.Quantity > 0) == 0) yield break;
 
         while (enemiesPerLevel > enemiesKilledOnLevel)
         {
-            if (meleeCounter < meleeEnemyNumber || rangedCounter < rangedEnemyNumber)
+            if (speedModifier == 0) yield return new WaitUntil( () => speedModifier > 0);
+
+            var spawnIndex = -1;
+            float rate = 1;
+            for (var i = 0; i < prefList.Length; i++)
             {
-                Spawn();
+                var pref = prefList[i];
+                if (pref.Quantity == 0 || pref.CountActiveInstances >= pref.Quantity) continue;
+                
+                var tmpRate = (float) pref.CountActiveInstances / pref.Quantity;
+                if (rate > tmpRate)
+                {
+                    spawnIndex = i;
+                    rate = tmpRate;
+                }
             }
 
+            Spawn(spawnIndex);
+
             // Кд должно быть обратно пропорционально скорости
-            var wait = speedModifier == 0
-                ? spawnCD
-                : spawnCD * (calibrateSpeedDependence - Mathf.Log(speedModifier * speedModifier));
+            var wait = spawnCD * (calibrateSpeedDependence - Mathf.Log(speedModifier * speedModifier));
 
             yield return new WaitForSeconds(wait);
         }
     }
 
-    // Спавнит тех тот тип противников которых меньше
-    private void Spawn()
+    private void Spawn(int spawnIndex)
     {
-        if (speedModifier == 0) return;
+        if (spawnIndex < 0) return;
 
-        float melees = 1;
-        float ranges = 1;
+        var prefab = prefList[spawnIndex];
+        var newEnemy = prefab.AddInstance();
 
-        if (meleeEnemyNumber > 0)
-        {
-            melees = (float) meleeCounter / meleeEnemyNumber;
-        }
-
-        if (rangedEnemyNumber > 0)
-        {
-            ranges = (float) rangedCounter / rangedEnemyNumber;
-        }
-
-        Creature newEnemy;
-        if (melees < ranges)
-        {
-            newEnemy = meleesPool.CreateInstance();
-            meleeCounter++;
-            
-            if (!enemies.Contains(newEnemy))
-                newEnemy.OnDeath += (c) =>
-                {
-                    meleeCounter--;
-                    meleesPool.RemoveInstance(c);
-                    enemiesKilledOnLevel++;
-                    Messenger.Broadcast(GameEvent.SCORE_EARNED);
-                };
-        }
-        else
-        {
-            newEnemy = rangesPool.CreateInstance();
-            rangedCounter++;
-            
-            if (!enemies.Contains(newEnemy))
-                newEnemy.OnDeath += (c) =>
-                {
-                    rangedCounter--;
-                    rangesPool.RemoveInstance(c);
-                    enemiesKilledOnLevel++;
-                    Messenger.Broadcast(GameEvent.SCORE_EARNED);
-                };
-        }
-
-        newEnemy.Reset();
-        enemies.Add(newEnemy);
+        newEnemy.OnDeath += NewEnemyOnOnDeath;
         newEnemy.transform.position = transform.position;
+    }
+
+    private void NewEnemyOnOnDeath(Creature obj)
+    {
+        enemiesKilledOnLevel++;
+        obj.OnDeath -= NewEnemyOnOnDeath;
     }
 }

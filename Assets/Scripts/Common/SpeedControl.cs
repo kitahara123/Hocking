@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Базовый класс для контроля скорости
+/// </summary>
 public class SpeedControl : MonoBehaviour
 {
     [SerializeField] protected float baseSpeed = 6.0f;

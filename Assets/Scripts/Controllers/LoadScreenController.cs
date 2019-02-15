@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 namespace Controllers
 {
+    /// <summary>
+    /// Заглушка на загрузке уровней
+    /// </summary>
     public class LoadScreenController : MonoBehaviour
     {
         [SerializeField] private Image progressBar;
