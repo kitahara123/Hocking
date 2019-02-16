@@ -7,10 +7,11 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class PointClickAttack : SpeedControl
 {
-    [SerializeField] private GameObject attackPref;
+    [SerializeField] private Attack attackPref;
     [SerializeField] private float destroyDelay = 1f;
     private float modelYOffset;
     private bool isometric;
+    private MonoObjectsPool<Attack> pool;
 
     protected override void Awake()
     {
@@ -18,6 +19,7 @@ public class PointClickAttack : SpeedControl
         Messenger<bool>.AddListener(GameEvent.ISOMETRIC_ENABLED, OnIsometricEnabled);
         isometric = Managers.Managers.Settings.Isometric;
         modelYOffset = GetComponent<CharacterController>().height / 2f;
+        pool = new MonoObjectsPool<Attack>(attackPref);
     }
 
     protected override void OnDestroy()
@@ -40,13 +42,15 @@ public class PointClickAttack : SpeedControl
     private IEnumerator Attack()
     {
         yield return null;
-        var go = Instantiate(attackPref);
+        var go = pool.CreateInstance(destroyDelay);
+        
+        // Сбрасываем поворот по умолчанию
+        go.transform.rotation = attackPref.transform.rotation;
 
         go.transform.position =
             new Vector3(transform.position.x, transform.position.y - modelYOffset, transform.position.z);
             
         go.transform.rotation = Quaternion.LookRotation(RelativeMovement.targetPos - go.transform.position) *
-                                go.transform.rotation;
-        Destroy(go, destroyDelay);
+                                attackPref.transform.rotation;
     }
 }
